@@ -36,27 +36,10 @@ public class Connection {
                     connectionListener.getTransferObject( Connection.this, transferObject);
 
                 } catch (Exception e) {
-                    try {
-                        System.out.println("Возникла проблема с подключением");
-                        System.out.println("Попытка переподключиться № 1");
-                        if (connectionSocket.isClosed()) {
-                            break;
-                        }
-                        mainThread.wait(100);
-                        System.out.println("Попытка переподключиться № 2");
-                        if (connectionSocket.isClosed()) {
-                            break;
-                        }
-                        System.out.println("Попытка переподключиться № 3");
-                        if (connectionSocket.isClosed()) {
-                            break;
-                        }
-                        connectionListener.disconnect(Connection.this);
-                        isDisconnect();
-                        break;
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
+                    System.out.println("Возникла проблема с подключением");
+                    connectionListener.disconnect(Connection.this);
+                    isDisconnect();
+                    break;
                 }
             }
         });
