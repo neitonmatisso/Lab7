@@ -56,6 +56,7 @@ public class HashMapWrapper implements CollectionWrapper {
         groupMap.keySet().removeIf(x -> groupMap.get(x).getId() < l);
         return "Удаление прошло успешно";
     }
+
     public int sumOfElement(){
         Set<Long> keySet = groupMap.keySet();
        int result = 0;

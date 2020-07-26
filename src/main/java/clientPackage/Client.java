@@ -2,7 +2,6 @@ package clientPackage;
 
 import businessLogic.commands.CommandType;
 import com.google.gson.Gson;
-import com.sun.deploy.nativesandbox.comm.Response;
 import connectionPackage.Connection;
 import connectionPackage.ConnectionListener;
 import connectionPackage.connectionData.Request;
