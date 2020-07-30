@@ -25,7 +25,7 @@ public class HashMapWrapperLogin implements CollectionWrapperLogin {
     public boolean askPass(String login, String Apass) {
         try{
             byte[] data = Apass.getBytes(StandardCharsets.UTF_8);
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance("SHA-384");
             byte[] digest = md.digest();
             byte[] pass = loginMap.get(login);
             return Arrays.equals(pass, digest);
@@ -33,6 +33,18 @@ public class HashMapWrapperLogin implements CollectionWrapperLogin {
             System.out.println("Проблема с расшифровкой пароля");
         }
         return false;
+    }
+
+    public static byte[] encrypt(String pass){
+        byte[] hash = null;
+        try{
+            String pepper = "63(8:^";
+            MessageDigest md = MessageDigest.getInstance("SHA-384");
+            hash = md.digest((pass + pepper).getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e){
+            System.out.println("Проблема с расшифровкой пароля");
+        }
+        return hash;
     }
 
     @Override

@@ -44,12 +44,12 @@ public class test3 {
             System.out.println ("Database connection established");
             System.out.println("DONE");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            //ResultSet rs = stmt.executeQuery(query);
 
-            while (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println("Total number of books in the table : " + count);
-            }
+            //while (rs.next()) {
+               // int count = rs.getInt(1);
+                //System.out.println("Total number of books in the table : " + count);
+           // }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
