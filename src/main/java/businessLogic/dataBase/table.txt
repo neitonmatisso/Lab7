@@ -1,0 +1,30 @@
+CREATE TYPE education AS ENUM ('DISTANCE_EDUCATION', 'FULL_TIME_EDUCATION', 'EVENING_CLASSES');
+CREATE TYPE semester AS ENUM ('FIRST', 'THIRD', 'FOURTH', 'EIGHTH');
+
+CREATE TABLE stGroup
+(
+	id int,
+    name varchar(16) NOT null,
+    coordinates point,
+    creationDate date,
+    shouldBeExpelled int, CHECK (shouldBeExpelled > 0),
+    formOfEducation education,
+    semesterEnum semester not null,
+    groupAdmin varchar(16)
+	editor varchar(16)
+
+);
+
+CREATE SEQUENCE id_stGroup_serial START 1 OWNED BY stGroup.id;
+
+
+
+CREATE TABLE users
+(
+    id int,
+    login varchar(16) NOT NULL,
+    password varchar(96) NOT NULL
+
+);
+
+CREATE SEQUENCE id_users_serial START 1 OWNED BY users.id;

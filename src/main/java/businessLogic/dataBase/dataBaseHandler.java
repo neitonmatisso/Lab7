@@ -6,6 +6,7 @@ import com.jcraft.jsch.Session;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class dataBaseHandler {
 
@@ -27,28 +28,26 @@ public class dataBaseHandler {
         }
     }
 
+    public Statement getStatement(){
+        Statement statement = null;
+        try {
+            if (connection != null){
+                statement = connection.createStatement();
+            }
+        } catch (SQLException e){
+            System.out.println("Произашла ошибка создания стейтмента");
+        }
+        return statement;
+    }
+
     public void connect(){
         connectToDataBase(DB_URL);
     }
 
     public void connectWithSHH(){
-        try {
-            makeSSH();
-            connectToDataBase(sshUrl);
 
-            if(connection != null && !connection.isClosed()){
-                System.out.println("Closing Database Connection");
-                connection.close();
-            }
-            if(session !=null && session.isConnected()){
-                System.out.println("Closing SSH Connection");
-                session.disconnect();
-            }
-
-        } catch (SQLException e){
-            System.out.println("Подключение к базе данных не удалось");
-        }
-
+        makeSSH();
+        connectToDataBase(sshUrl);
 
     }
 
