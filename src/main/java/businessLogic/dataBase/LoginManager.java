@@ -1,4 +1,4 @@
-package businessLogic.collectionWorker;
+package businessLogic.dataBase;
 
 import businessLogic.dataBase.dataBaseManager;
 import connectionPackage.Connection;
@@ -13,9 +13,18 @@ import java.sql.SQLException;
 public class LoginManager{
 
     private dataBaseManager dbM;
+    private String login;
 
     public LoginManager(dataBaseManager dbM){
         this.dbM = dbM;
+    }
+
+    public boolean loginCheck(String login, String Apass){
+        if (passCheck(login, Apass)){
+            this.login = login;
+            return true;
+        }
+        return false;
     }
 
     public boolean passCheck(String login, String Apass){
@@ -70,6 +79,11 @@ public class LoginManager{
         String query = "INSERT INTO users (id, login, password) VALUES (nextval('id_stgroup_serial'), '" +
                 login +"', '" + encrypt(pass) + "');";
         dbM.executeUpdate(query);
+        System.out.println("Регистрация пользователя " + login + " прошла успешно");
         return true;
+    }
+
+    public String getLogin() {
+        return login;
     }
 }

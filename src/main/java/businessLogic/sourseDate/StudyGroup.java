@@ -1,6 +1,11 @@
 package businessLogic.sourseDate;
 
+import businessLogic.factories.Typer;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Date;
+
 
 public class StudyGroup {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -44,6 +49,8 @@ public class StudyGroup {
     }
 
 
+
+
     public int getShouldBeExpelled() {
         return shouldBeExpelled;
     }
@@ -74,6 +81,20 @@ public class StudyGroup {
 
     public void setGroupAdmin(Person groupAdmin) {
         this.groupAdmin = groupAdmin;
+    }
+
+    public ArrayList getEverything(){
+        ArrayList<Pair<String, String>> params = new ArrayList<>();
+        //params.add(new Pair<>("", Typer.typeRefact()));
+        params.add(new Pair<>("id", Typer.typeRefact(this.id)));
+        params.add(new Pair<>("name", Typer.typeRefact(this.name)));
+        params.add(new Pair<>("coordinates", Typer.typeRefact((this.coordinates.getX() + "," + this.coordinates.getY()))));
+        params.add(new Pair<>("creationDate", Typer.typeRefact(Typer.typeRefact(this.creationDate))));
+        params.add(new Pair<>("shouldBeExpelled", Typer.typeRefact(this.shouldBeExpelled)));
+        params.add(new Pair<>("formOfEducation", Typer.typeRefact(this.formOfEducation)));
+        params.add(new Pair<>("semesterEnum", Typer.typeRefact(this.semesterEnum)));
+        params.add(new Pair<>("groupAdmin", Typer.typeRefact(this.groupAdmin)));
+        return params;
     }
 
     @Override

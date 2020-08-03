@@ -1,6 +1,7 @@
 package businessLogic.commands;
 
 import businessLogic.collectionWorker.HashMapWrapper;
+import businessLogic.dataBase.dataBaseManager;
 import businessLogic.factories.StudyGroupFactory;
 import businessLogic.mainApp.Result;
 import businessLogic.sourseDate.StudyGroup;
@@ -10,15 +11,19 @@ import com.google.gson.Gson;
  */
 
 public class InsertCommand implements Command {
-    private HashMapWrapper hashMapWrapper;
-    public InsertCommand(ControlUnit cu, HashMapWrapper hmw){
+    private dataBaseManager dbM;
+    public InsertCommand(ControlUnit cu, dataBaseManager dbM){
         cu.addCommand("insert", this,CommandType.OBJECT);
-        hashMapWrapper = hmw;
+        this.dbM = dbM;
     }
     @Override
     public void execute(String options, Result result) {
 
-        hashMapWrapper.addElement(new Gson().fromJson(options, StudyGroup.class));
+        String query = "Insert into data base";
+
+
+
+        //hashMapWrapper.addElement(new Gson().fromJson(options, StudyGroup.class));
         result.writeResult("Объект успешно добавлен  в коллекцию!");
     }
 

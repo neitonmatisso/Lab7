@@ -10,7 +10,7 @@ CREATE TABLE stGroup
     shouldBeExpelled int, CHECK (shouldBeExpelled > 0),
     formOfEducation education,
     semesterEnum semester not null,
-    groupAdmin varchar(16)
+    groupAdmin varchar(16),
 	editor varchar(16)
 
 );

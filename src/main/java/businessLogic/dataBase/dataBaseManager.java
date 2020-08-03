@@ -33,4 +33,8 @@ public class dataBaseManager {
         }
         return resultSet;
     }
+
+    public void clear(){
+        //
+    }
 }

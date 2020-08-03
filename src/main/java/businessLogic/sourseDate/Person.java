@@ -18,6 +18,10 @@ public class Person  {
                 ", passportID='" + passportID ;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
 
 
 }

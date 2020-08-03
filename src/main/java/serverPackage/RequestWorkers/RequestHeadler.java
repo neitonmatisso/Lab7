@@ -38,7 +38,7 @@ public class RequestHeadler {
         Command helpCommand = new HelpCommand(controlUnit);
         Command historyCommand = new HistoryCommand(controlUnit);
         Command infoCommand = new InfoCommand(controlUnit,hashMapWrapper);
-        Command insertCommand = new InsertCommand(controlUnit,hashMapWrapper);
+        //Command insertCommand = new InsertCommand(controlUnit,hashMapWrapper);
         Command printCommand = new PrintFieldCommand(controlUnit,hashMapWrapper);
         Command removeCommand = new RemoveCommand(controlUnit,hashMapWrapper);
         Command showCommand = new ShowCommand(controlUnit,hashMapWrapper);

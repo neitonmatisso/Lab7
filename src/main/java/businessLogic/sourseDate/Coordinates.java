@@ -15,4 +15,13 @@ public class Coordinates {
                 " x=" + x +
                 ", y=" + y ;
     }
+
+    public double getX(){
+        return this.x;
+    }
+
+    public Integer getY(){
+        return this.y;
+    }
+
 }

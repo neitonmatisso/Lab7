@@ -12,7 +12,7 @@ public class CommandLoader {
        Command help = new HelpCommand(cu);
        Command history = new HistoryCommand(cu);
        Command info = new InfoCommand(cu, hashMapWrapper);
-       Command insert = new InsertCommand(cu, hashMapWrapper);
+       //Command insert = new InsertCommand(cu, hashMapWrapper);
        Command load = new LoadCommand(cu, fl);
        Command print = new PrintFieldCommand(cu,hashMapWrapper);
        Command removeAll = new RemoveAllByCommand(cu, hashMapWrapper);
