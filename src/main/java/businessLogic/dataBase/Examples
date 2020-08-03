@@ -1,1 +1,3 @@
-Insert into stgroup values (nextval('id_stgroup_serial'), 'name', '1,1', '1-1-2000', 2, 'DISTANCE_EDUCATION', 'FIRST', 'dan', 'dan');
+Insert into stgroup values (nextval('id_stgroup_serial'), 'name', '1,1', '2000-01-01 01:01:01', 2, 'DISTANCE_EDUCATION', 'FIRST', 'dan', 'dan');
+
+INSERT into person values ('oleg', '100');

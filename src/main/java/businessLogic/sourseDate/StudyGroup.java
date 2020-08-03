@@ -3,6 +3,7 @@ package businessLogic.sourseDate;
 import businessLogic.factories.Typer;
 import javafx.util.Pair;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,6 +20,7 @@ public class StudyGroup {
     public StudyGroup(){
         creationDate = new Date();
     }
+    private String owner; //Обладатель записи
 
     public long getId() {
         return id;
@@ -48,8 +50,9 @@ public class StudyGroup {
         return creationDate;
     }
 
-
-
+    public void setCreationDate( Date date){
+        this.creationDate = date;
+    }
 
     public int getShouldBeExpelled() {
         return shouldBeExpelled;
@@ -81,6 +84,14 @@ public class StudyGroup {
 
     public void setGroupAdmin(Person groupAdmin) {
         this.groupAdmin = groupAdmin;
+    }
+
+    public void setOwner(String owner){
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public ArrayList getEverything(){

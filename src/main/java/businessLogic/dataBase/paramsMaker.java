@@ -3,6 +3,7 @@ package businessLogic.dataBase;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class paramsMaker {
 
@@ -14,20 +15,29 @@ public class paramsMaker {
         return string.toString();
     }
 
-    public static String makeValues(ArrayList<Pair<String, String>> params){
-        StringBuilder values = new StringBuilder();
-        for (int i = 0; i < params.size(); i++){
-            if (i == (params.size()-1)){
-                values.append(params.get(i).getKey());
+    public static String makeParams(ArrayList<Pair<String, String>> array, String[] values){
+        StringBuilder params = new StringBuilder();
+        for (int i = 0; i < array.size(); i++){
+            if (Arrays.asList(values).contains(array.get(i).getKey())){
+                if (i == (array.size()-1)){
+                    params.append(array.get(i).getValue());
+                }
+                params.append(array.get(i).getValue()).append(", ");
             }
-            values.append(params.get(i).getKey()).append(", ");
-
         }
-        values = new StringBuilder("(" + values + ")");
-        return values.toString();
+        params = new StringBuilder("(" + params + ")");
+        return params.toString();
     }
 
-    public static String makeParams(ArrayList<Pair<String, String>> params){
-        return makeValues(params);
+    public static String makeValues(String[] values){
+        StringBuilder string = new StringBuilder();
+        for (int i = 0; i < values.length; i++){
+            if (i == values.length-1){
+                string.append(values[i]);
+            }
+            string.append(values[i]).append(", ");
+        }
+        string = new StringBuilder("(" + string + ")");
+        return string.toString();
     }
 }

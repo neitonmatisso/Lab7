@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Typer {
 
-    public static <Т> String typeRefact (Т param){
+    public static <T> String typeRefact (T param){
 
         if (param == null){
             return "null";
@@ -25,7 +25,7 @@ public class Typer {
 
         if (type.equals("Date")){
             String[] strings = param.toString().split(" ");
-            return (strings[2] + "-" + strings[1] + "-" + strings[5]);
+            return (strings[5] + "-" + strings[1] + "-" + strings[2] + " " + strings[3]);
         }
 
 

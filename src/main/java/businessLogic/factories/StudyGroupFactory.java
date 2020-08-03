@@ -15,6 +15,7 @@ public class StudyGroupFactory {
     public void updateScanner(){
         scanner = new Scanner(System.in);
     }
+
     public StudyGroup createStudyGroupWithParams (String params){
         List<String> para = Arrays.asList(params.split("-"));
         para.removeIf(x -> x.equals(" "));
