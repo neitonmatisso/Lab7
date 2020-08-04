@@ -5,13 +5,13 @@ CREATE TABLE stGroup
 (
 	id int  UNIQUE PRIMARY KEY,
     name varchar(16) NOT null, CHECK (name != ''),
-    coordinates point,
-    creationDate timestamp,
+    coordinates point NOT NULL,
+    creationDate timestamp NOT NULL,
     shouldBeExpelled int, CHECK (shouldBeExpelled > 0),
     formOfEducation education,
     semesterEnum semester not null,
     groupAdmin_id varchar(16) UNIQUE,
-	owner varchar(16)
+	owner varchar(16) NOT NULL, CHECK (owner != '')
 
 );
 
@@ -32,6 +32,8 @@ CREATE SEQUENCE id_users_serial START 1 OWNED BY users.id;
 CREATE TABLE person
 (
     name varchar(16) NOT NULL, CHECK (name != ''),
-    passportID varchar(16) NOT NULL  UNIQUE, CHECK (name != '')
+    passportID varchar(16) NOT NULL  UNIQUE, CHECK (name != ''),
+    owner varchar(16) NOT NULL, CHECK (owner != '')
+
 
 );

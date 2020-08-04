@@ -148,6 +148,9 @@ public class dataBaseCollection {
             ResultSet formOEDB = dbM.executeQuery("select formofeducation from stgroup where id =" + id + ";");
             formOEDB.next();
             String form = formOEDB.getString("formofeducation");
+            if (form == null){
+                return null;
+            }
             switch (form){
                 case "FULL_TIME_EDUCATION": formOfEducation = FormOfEducation.FULL_TIME_EDUCATION; break;
                 case "DISTANCE_EDUCATION": formOfEducation = FormOfEducation.DISTANCE_EDUCATION; break;

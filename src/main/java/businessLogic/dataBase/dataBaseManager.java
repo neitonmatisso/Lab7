@@ -20,7 +20,7 @@ public class dataBaseManager {
         try {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println("Ошибка при запросе updatest dataBaseManager");
+            System.out.println("Ошибка при запросе update dataBaseManager");
         }
     }
 

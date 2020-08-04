@@ -19,7 +19,7 @@ public class Typer {
         //switch (type){
             //case "String":
         //}
-        if (type.equals("String")){
+        if (type.equals("String") || type.contains("Enum") || type.equals("Semester") || type.equals("FormOfEducation")){
             return "'" + param + "'";
         }
 
@@ -27,6 +27,7 @@ public class Typer {
             String[] strings = param.toString().split(" ");
             return (strings[5] + "-" + strings[1] + "-" + strings[2] + " " + strings[3]);
         }
+
 
 
         return param + "";

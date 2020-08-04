@@ -1,5 +1,6 @@
 package businessLogic.dataBase;
 
+import businessLogic.factories.Typer;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -7,37 +8,55 @@ import java.util.Arrays;
 
 public class paramsMaker {
 
-    public static String makeParams(String[] params){
-        StringBuilder string = new StringBuilder();
-        for (String elem : params){
-            string.append(elem);
-        }
-        return string.toString();
+    private String owner;
+
+    public paramsMaker(String owner){
+        this.owner = owner;
     }
 
-    public static String makeParams(ArrayList<Pair<String, String>> array, String[] values){
+    public static String[] stGroupValues = new String[] {"name", "coordinates", "creationDate",
+            "shouldBeExpelled","formOfEducation", "semesterEnum", "groupAdmin_id"};
+
+
+    public String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum){
         StringBuilder params = new StringBuilder();
-        for (int i = 0; i < array.size(); i++){
-            if (Arrays.asList(values).contains(array.get(i).getKey())){
-                if (i == (array.size()-1)){
-                    params.append(array.get(i).getValue());
-                }
-                params.append(array.get(i).getValue()).append(", ");
+        for (Pair<String, String> stringPair : array) {
+            if (Arrays.asList(getValue(tenum)).contains(stringPair.getKey())) {
+                params.append(stringPair.getValue()).append(", ");
             }
         }
-        params = new StringBuilder("(" + params + ")");
-        return params.toString();
+        params = new StringBuilder("(" + idParam(tenum) + params + "'" + owner + "')");
+        return makeValues(getValue(tenum), tenum) + " values " + params.toString();
     }
 
-    public static String makeValues(String[] values){
+    public static String makeValues(String[] values, tablesEnum tenum){
         StringBuilder string = new StringBuilder();
-        for (int i = 0; i < values.length; i++){
-            if (i == values.length-1){
-                string.append(values[i]);
-            }
-            string.append(values[i]).append(", ");
+        for (String value : values) {
+            string.append(value).append(", ");
         }
-        string = new StringBuilder("(" + string + ")");
+        string = new StringBuilder("(" + idValue(tenum) + string + "owner)");
         return string.toString();
+    }
+
+    private static String idParam(tablesEnum tenum){ //for Unique fields
+        switch (tenum){
+            case STGROUP: return "nextval('id_stgroup_serial'), ";
+        }
+        return "";
+    }
+
+    private static String idValue(tablesEnum tenum){
+        switch (tenum){
+            case STGROUP: return "id, ";
+        }
+        return "";
+    }
+
+    private static String[] getValue(tablesEnum tenum){
+        switch (tenum){
+            case STGROUP: return stGroupValues;
+        }
+        return null;
+
     }
 }

@@ -94,7 +94,7 @@ public class StudyGroup {
         return owner;
     }
 
-    public ArrayList getEverything(){
+    public ArrayList<Pair<String, String>> getEverything(){
         ArrayList<Pair<String, String>> params = new ArrayList<>();
         //params.add(new Pair<>("", Typer.typeRefact()));
         params.add(new Pair<>("id", Typer.typeRefact(this.id)));
@@ -104,7 +104,13 @@ public class StudyGroup {
         params.add(new Pair<>("shouldBeExpelled", Typer.typeRefact(this.shouldBeExpelled)));
         params.add(new Pair<>("formOfEducation", Typer.typeRefact(this.formOfEducation)));
         params.add(new Pair<>("semesterEnum", Typer.typeRefact(this.semesterEnum)));
-        params.add(new Pair<>("groupAdmin", Typer.typeRefact(this.groupAdmin)));
+        if (groupAdmin != null){
+            params.add(new Pair<>("groupAdmin_id", Typer.typeRefact(this.groupAdmin.getPassportID())));
+        } else{
+            params.add(new Pair<>("groupAdmin_id", Typer.typeRefact(null)));
+        }
+
+
         return params;
     }
 
