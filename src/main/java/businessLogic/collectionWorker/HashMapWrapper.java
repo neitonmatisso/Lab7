@@ -67,6 +67,11 @@ public class HashMapWrapper implements CollectionWrapper {
         return result;
     }
 
+    public String addElementWithID(Long id, StudyGroup st) {
+        groupMap.put(id, st);
+        return "Новый элемент успешно добавлен!";
+    }
+
     @Override
     public String addElement(StudyGroup st) {
         groupMap.put(st.getId(),st);

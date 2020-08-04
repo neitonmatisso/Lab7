@@ -2,12 +2,15 @@ package businessLogic.dataBase;
 
 import businessLogic.collectionWorker.HashMapWrapper;
 import businessLogic.factories.IdGenerator;
+import businessLogic.factories.Typer;
+import businessLogic.mainApp.Result;
 import businessLogic.sourseDate.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,8 @@ public class dataBaseCollection {
 
     private dataBaseManager dbM;
     private HashMapWrapper HashMap;
+    private final Result result = new Result();
+    private Thread CollectionUpdater;
 
     public dataBaseCollection(dataBaseManager dbM, HashMapWrapper HashMap){
         this.dbM = dbM;
@@ -23,22 +28,43 @@ public class dataBaseCollection {
     }
 
     public void updateCollection(){
-        ResultSet ids = dbM.executeQuery("select id from stgroup;");
+        ResultSet idsDB = dbM.executeQuery("select id from stgroup;");
+        String[] ids_raw = new String[0];
+        try {
+            ArrayList<String> id_strings = new ArrayList<>();
+            while (idsDB.next()){
+                id_strings.add(idsDB.getString("id"));
+            }
+            ids_raw = new String[id_strings.size()];
+            for (int i = 0; i < id_strings.size(); i++){
+                ids_raw[i] = id_strings.get(i);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка в доступе к первоначальным id dataBaseCollection");
+        }
         HashMap.clear();
+        final String[] ids = ids_raw;
 
         Runnable task = () -> {
-            try {
-                while(ids.next()){
-                    HashMap.addElement(uploadStudyGroup(ids.getString("id")));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+            if (ids.length == 0){
+                result.writeResult("Ошибка с загрузкой колликции. \n Тут или танцы с бубном или админ...");
+                System.out.println("Ошибка с первоначальными id");
             }
+            for (String id : ids){
+                System.out.println(HashMap.addElementWithID(Long.parseLong(id), uploadStudyGroup(id)));
+            }
+            result.writeResult("Коллекция загружена");
+            System.out.println("Коллекция загружена");
         };
 
-        Thread CollectionUpdater = new Thread(task);
+        CollectionUpdater = new Thread(task);
         CollectionUpdater.start();
 
+    }
+
+    public Thread getCollectionUpdater() {
+        return CollectionUpdater;
     }
 
     public StudyGroup uploadStudyGroup (String group_id){
@@ -61,6 +87,7 @@ public class dataBaseCollection {
         String name = "corrupted";
         try {
             ResultSet ids = dbM.executeQuery("select name from stgroup where id = " + id + ";");
+            ids.next();
             name = ids.getString("name");
         } catch (SQLException e) {
             System.out.println("Ошибка при обновлении имени dataBaseCollection");
@@ -73,6 +100,7 @@ public class dataBaseCollection {
 
         try {
             ResultSet cordsDB = dbM.executeQuery("select coordinates from stgroup where id = " + id + ";");
+            cordsDB.next();
             String cords = cordsDB.getString("coordinates");
             String crd = cords.split("\\(")[1];
             crd = crd.split("\\)")[0];
@@ -89,6 +117,7 @@ public class dataBaseCollection {
         Date date = null;
         try {
             ResultSet crdateDB = dbM.executeQuery("select creationdate from stgroup where id =" + id + ";");
+            crdateDB.next();
             String creation = crdateDB.getString("creationdate");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String str = creation.split("\\.")[0];
@@ -104,7 +133,8 @@ public class dataBaseCollection {
     private int askShouldBeExpelled(String id){
         Integer sbEx = -1;
         try {
-            ResultSet sbExDB = dbM.executeQuery("select shouldbeexpelled from stgroup where id" + id + ";");
+            ResultSet sbExDB = dbM.executeQuery("select shouldbeexpelled from stgroup where id = " + id + ";");
+            sbExDB.next();
             sbEx = Integer.parseInt(sbExDB.getString("shouldbeexpelled"));
         } catch (SQLException e) {
             System.out.println("Ошибка с загрузкой колличества исключенных");
@@ -116,6 +146,7 @@ public class dataBaseCollection {
         FormOfEducation formOfEducation = null;
         try {
             ResultSet formOEDB = dbM.executeQuery("select formofeducation from stgroup where id =" + id + ";");
+            formOEDB.next();
             String form = formOEDB.getString("formofeducation");
             switch (form){
                 case "FULL_TIME_EDUCATION": formOfEducation = FormOfEducation.FULL_TIME_EDUCATION; break;
@@ -133,6 +164,7 @@ public class dataBaseCollection {
         Semester semester = null;
         try {
             ResultSet semesterDB = dbM.executeQuery("select semesterenum from stgroup where id =" + id + ";");
+            semesterDB.next();
             String sem = semesterDB.getString("semesterenum");
             switch (sem){
                 case "FIRST": semester =  Semester.FIRST; break;
@@ -154,6 +186,7 @@ public class dataBaseCollection {
         String adminID = null;
         try {
             ResultSet adminIdDB = dbM.executeQuery("select groupadmin_id from stgroup where id =" + id + ";");
+            adminIdDB.next();
             adminID = adminIdDB.getString("groupadmin_id");
         } catch (SQLException e) {
             System.out.println("Ошибка запроса ID админа dataBaseCollection");
@@ -164,7 +197,8 @@ public class dataBaseCollection {
     private String askPersonName(String admin_id){
         String adminName = null;
         try {
-            ResultSet adminIdDB = dbM.executeQuery("select name from person where passportid =" + admin_id + ";");
+            ResultSet adminIdDB = dbM.executeQuery("select name from person where passportid = " + Typer.typeRefact(admin_id) + ";");
+            adminIdDB.next();
             adminName = adminIdDB.getString("name");
         } catch (SQLException e) {
             System.out.println("Ошибка запроса имени админа dataBaseCollection");
@@ -176,6 +210,7 @@ public class dataBaseCollection {
         String ownerName = null;
         try {
             ResultSet adminIdDB = dbM.executeQuery("select owner from stgroup where id =" + id + ";");
+            adminIdDB.next();
             ownerName = adminIdDB.getString("owner");
         } catch (SQLException e) {
             System.out.println("Ошибка запроса обладателя записи dataBaseCollection");

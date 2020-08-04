@@ -20,7 +20,7 @@ public class dataBaseManager {
         try {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println("Ошибка при запросе");
+            System.out.println("Ошибка при запросе updatest dataBaseManager");
         }
     }
 
@@ -29,7 +29,7 @@ public class dataBaseManager {
         try {
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println("Ошибка при запросе");
+            System.out.println("Ошибка при запросе query dataBaseManager");
         }
         return resultSet;
     }
