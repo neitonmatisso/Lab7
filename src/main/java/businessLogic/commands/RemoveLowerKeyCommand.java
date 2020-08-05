@@ -1,19 +1,23 @@
 package businessLogic.commands;
 
 import businessLogic.collectionWorker.HashMapWrapper;
+import businessLogic.dataBase.dataBaseCollection;
 import businessLogic.mainApp.Result;
 /*
     удаляет все элементы из коллекции , коюч которых ниже заданного
  */
 public class RemoveLowerKeyCommand implements Command {
     private HashMapWrapper hashMapWrapper ;
-    public RemoveLowerKeyCommand(ControlUnit cu, HashMapWrapper hashMapWrapper){
+    private dataBaseCollection dataBaseCollection;
+    public RemoveLowerKeyCommand(ControlUnit cu, HashMapWrapper hashMapWrapper, dataBaseCollection dataBaseCollection){
         cu.addCommand("remove_lover", this,CommandType.ARGS);
         this.hashMapWrapper = hashMapWrapper;
+        this.dataBaseCollection = dataBaseCollection;
     }
     @Override
     public void execute(String options, Result result) {
         try {
+            result.writeResult(dataBaseCollection.removeLowerKey(Long.parseLong(options)));
             result.writeResult(hashMapWrapper.removeLowerKey(Long.parseLong(options)));
         } catch (NumberFormatException ex){
             result.writeResult("поступил неверный формат. Запрос не будет исполнен");

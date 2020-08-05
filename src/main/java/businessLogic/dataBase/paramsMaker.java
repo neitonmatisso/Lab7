@@ -21,11 +21,13 @@ public class paramsMaker {
     public String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum){
         StringBuilder params = new StringBuilder();
         for (Pair<String, String> stringPair : array) {
+            assert getValue(tenum) != null;
             if (Arrays.asList(getValue(tenum)).contains(stringPair.getKey())) {
                 params.append(stringPair.getValue()).append(", ");
             }
         }
         params = new StringBuilder("(" + idParam(tenum) + params + "'" + owner + "')");
+        assert getValue(tenum) != null;
         return makeValues(getValue(tenum), tenum) + " values " + params.toString();
     }
 
@@ -41,15 +43,15 @@ public class paramsMaker {
     private static String idParam(tablesEnum tenum){ //for Unique fields
         switch (tenum){
             case STGROUP: return "nextval('id_stgroup_serial'), ";
+            default:  return "";
         }
-        return "";
     }
 
     private static String idValue(tablesEnum tenum){
         switch (tenum){
             case STGROUP: return "id, ";
+            default: return "";
         }
-        return "";
     }
 
     private static String[] getValue(tablesEnum tenum){

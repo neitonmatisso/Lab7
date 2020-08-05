@@ -1,5 +1,6 @@
 package businessLogic.sourseDate;
 
+import businessLogic.dataBase.tablesEnum;
 import businessLogic.factories.Typer;
 import javafx.util.Pair;
 
@@ -21,6 +22,8 @@ public class StudyGroup {
         creationDate = new Date();
     }
     private String owner; //Обладатель записи
+
+    public final tablesEnum tableEnum = tablesEnum.STGROUP;
 
     public long getId() {
         return id;
