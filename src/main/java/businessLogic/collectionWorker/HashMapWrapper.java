@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class HashMapWrapper implements CollectionWrapper {
     private Map<Long,StudyGroup> groupMap;
     private Date createDate;
+    private String owner = "hz";
 
 
     public HashMapWrapper(){
@@ -19,6 +20,9 @@ public class HashMapWrapper implements CollectionWrapper {
         createDate = new Date();
     }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public String printAdmins(){
         if(groupMap.size() == 0){
@@ -38,7 +42,7 @@ public class HashMapWrapper implements CollectionWrapper {
     }
 
     public String removeBySBE(int a){
-        groupMap.keySet().removeIf(aLong -> groupMap.get(aLong).getShouldBeExpelled() == a);
+        groupMap.keySet().removeIf( aLong -> (groupMap.get(aLong).getShouldBeExpelled() == a && groupMap.get(aLong).getOwner().equals(owner)));
         return "Удаление прошло успешно";
 
     }
@@ -53,7 +57,7 @@ public class HashMapWrapper implements CollectionWrapper {
         if ( buffer == 0){
             return "нету id ниже заданого";
         }
-        groupMap.keySet().removeIf(x -> groupMap.get(x).getId() < l);
+        groupMap.keySet().removeIf(x -> (groupMap.get(x).getId() < l && groupMap.get(x).getOwner().equals(owner)));
         return "Удаление прошло успешно";
     }
 
@@ -82,6 +86,9 @@ public class HashMapWrapper implements CollectionWrapper {
     public String removeElement(long id) {
         if (groupMap.get(id) == null){
             return "элемента с таким айди не существует";
+        }
+        if (groupMap.get(id).getOwner().equals(owner)){
+            return "У вас нет доступа к этой записи";
         }
         groupMap.remove(id);
         return "Элемент успешно удален!";

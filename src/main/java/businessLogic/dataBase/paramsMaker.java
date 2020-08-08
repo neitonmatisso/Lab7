@@ -8,17 +8,13 @@ import java.util.Arrays;
 
 public class paramsMaker {
 
-    private String owner;
-
-    public paramsMaker(String owner){
-        this.owner = owner;
-    }
-
     public static String[] stGroupValues = new String[] {"name", "coordinates", "creationDate",
             "shouldBeExpelled","formOfEducation", "semesterEnum", "groupAdmin_id"};
 
+    public static String[] personValues = new String[] {"name", "passport"};
 
-    public String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum){
+
+    public static String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum, String owner){
         StringBuilder params = new StringBuilder();
         for (Pair<String, String> stringPair : array) {
             assert getValue(tenum) != null;
@@ -57,8 +53,8 @@ public class paramsMaker {
     private static String[] getValue(tablesEnum tenum){
         switch (tenum){
             case STGROUP: return stGroupValues;
+            case PERSON: return personValues;
+            default: return new String[] {};
         }
-        return null;
-
     }
 }

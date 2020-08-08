@@ -16,6 +16,10 @@ public class ResponceSender {
         this.answerQueue = answerQueue;
     }
 
+    public Queue<String> getAnswerQueue() {
+        return answerQueue;
+    }
+
     public void sendAnswer(Connection connection){
         try {
             Responce  responce = new Responce(ResponseType.ANSWER,answerQueue.poll());

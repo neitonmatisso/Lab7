@@ -18,7 +18,7 @@ public class RequestBuilder {
         this.commandMap = commandMap;
     }
 
-    public Pair<String,String> completeQuery(String name, String args) throws InvalidCommandException {
+    public Pair<String,String> completeQuery(String name, String args, String login) throws InvalidCommandException {
         if(!commandMap.containsKey(name)){
             System.out.println("Invalid command name");
             throw new InvalidCommandException();
@@ -40,7 +40,7 @@ public class RequestBuilder {
                 }
                 return new Pair<String, String>(name,args);
             case "OBJECT":
-                StudyGroup studyGroup = new StudyGroupFactory().createStudyGroup();
+                StudyGroup studyGroup = new StudyGroupFactory(login).createStudyGroup();
                 return new Pair<String, String>(name, new Gson().toJson(studyGroup));
             default:
                 throw new InvalidCommandException();

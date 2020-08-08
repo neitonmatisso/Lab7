@@ -1,6 +1,7 @@
 package clientPackage;
 
 import businessLogic.commands.CommandType;
+import businessLogic.dataBase.LoginManager;
 import com.google.gson.Gson;
 import connectionPackage.Connection;
 import connectionPackage.ConnectionListener;
@@ -46,6 +47,14 @@ public class Client implements ConnectionListener {
             System.out.println("Cannot send request!");
         }
     }
+    public void createLogin(String args){
+        Request request = new Request(RequestType.LOGIN,"",args);
+        try {
+            connection.sendTransferObject(new TransferObject(new Gson().toJson(request)));
+        } catch (IOException ex ){
+            System.out.println("Cannot send request!");
+        }
+    }
 
 
 
@@ -54,13 +63,14 @@ public class Client implements ConnectionListener {
             connection = new Connection(this,IP,port);
             return true;
         }catch (IOException ex){
+            System.out.println("Хоспаде, Максон, запомни localhost 2121");
             return false;
         }
     }
 
 
     @Override
-    public void getTransferObject(Connection connection, TransferObject transferObject) {
+    public void getTransferObject(Connection connection, TransferObject transferObject, LoginManager loginManager) {
         Responce response = new Gson().fromJson(transferObject.getJsonTransfer(),Responce.class);
         switch (response.getResponseType()){
             case ANSWER:

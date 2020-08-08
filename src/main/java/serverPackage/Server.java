@@ -16,6 +16,7 @@ import connectionPackage.connectionData.TransferObject;
 import serverPackage.RequestWorkers.RequestHeadler;
 import serverPackage.RequestWorkers.RequestReciever;
 import serverPackage.RequestWorkers.ResponceSender;
+import businessLogic.dataBase.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -37,8 +38,7 @@ public class Server implements ConnectionListener {
     private HashMapWrapper hashMapWrapper;
     private FileManager fileManager;
 
-    public Server() throws NoFileException {
-
+    public Server(dataBaseHandler dataBaseHandler) throws NoFileException {
 
         queryQueue = new ArrayDeque<>();
         answerQueue = new ArrayDeque<>();
@@ -48,19 +48,25 @@ public class Server implements ConnectionListener {
         hashMapWrapper = new HashMapWrapper();
         fileManager = new FileManager(hashMapWrapper,"ResourceFile");
 
+        dataBaseManager dataBaseManager = new dataBaseManager(dataBaseHandler); //need login
+        LoginManager loginManager = new LoginManager(dataBaseManager);
+        dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
+
         requestReciever = new RequestReciever(queryQueue);
-        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit,hashMapWrapper,fileManager);
+        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit,hashMapWrapper,fileManager, dataBaseCollection);
         responceSender = new ResponceSender(answerQueue);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                controlUnit.executeCommand("save",new Result());
+                controlUnit.executeCommand("clear",new Result());
             }
         });
 
         try(ServerSocket serverSocket = new ServerSocket(2121)) {
+            CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
             System.out.println("Server start...");
-            new LoadCommand(controlUnit,fileManager).execute("",new Result());
+            collectionUpdater.updateCollection();
+            //new LoadCommand(controlUnit,fileManager).execute("",new Result());
             while (true){
                 Connection connection = new Connection(serverSocket.accept(),this);
                 connectionsList.add(connection);
@@ -73,8 +79,16 @@ public class Server implements ConnectionListener {
     }
 
     public static void main(String[] args) {
+        dataBaseHandler dataBaseHandler;
+        if (args != null){
+            dataBaseHandler = new dataBaseHandler("ssh");
+        }else{
+            dataBaseHandler = new dataBaseHandler("");
+        }
+
+
         try {
-            new Server();
+            new Server(dataBaseHandler);
         } catch (NoFileException e) {
             System.out.println("File error! Please create file SaveCollFile");
         }
@@ -89,7 +103,7 @@ public class Server implements ConnectionListener {
                 responceSender.sendAnswer(connection);
                 break;
             case LOGIN:
-                //для авторизации в 7 лабе
+
                 break;
             case REGISTRATION:
                 //для регистрации в 7 лабе

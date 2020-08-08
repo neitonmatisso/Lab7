@@ -4,8 +4,6 @@ public class Request {
     private RequestType requestType;
     private String commandName;
     private String args;
-    //String login;  для 7 лабы
-    //String pass;
     public Request(RequestType requestType, String commandName, String args) {
         this.requestType = requestType;
         this.commandName = commandName;
@@ -35,5 +33,6 @@ public class Request {
     public void setArgs(String args) {
         this.args = args;
     }
+
 }
 

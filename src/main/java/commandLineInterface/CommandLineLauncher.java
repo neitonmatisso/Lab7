@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CommandLineLauncher {
+
     public static void main(String[] args) throws InterruptedException {
+        String login = "";
+        String pass = "";
         Client client = new Client();
         Scanner scanner = new Scanner(System.in);
         connect(client,scanner);
@@ -24,6 +27,9 @@ public class CommandLineLauncher {
             if(client.getServerStatus().equals(ServerStatus.CLOSE)){
                 connect(client,scanner);
             }
+
+            tryToLogin(client, scanner);
+            //client.
 
             System.out.println("Create your request");
             System.out.print(">");
@@ -37,18 +43,28 @@ public class CommandLineLauncher {
             if(commandData.equals("exit")){
                 System.exit(0);
             }
-
-            List<String> request = Arrays.asList(commandData.split(" "));
+            String[] data = commandData.split(" ");
+            String[] okData = new String[data.length-2];
+            for (int i = 0; i < data.length; i++){
+                if ((i == (data.length-1)) || (i == (data.length-2))){
+                    login = data[data.length-2];
+                    pass = data[data.length-1];
+                }
+                else{
+                    okData[i] = data[i];
+                }
+            }
+            List<String> request = Arrays.asList(okData);
             Pair<String,String> query = null;
 
 
             try {
                 switch (request.size()){
                     case 1:
-                         query = requestBuilder.completeQuery(request.get(0),null);
+                         query = requestBuilder.completeQuery(request.get(0),null, login);
                         break;
                     case 2:
-                         query = requestBuilder.completeQuery(request.get(0),request.get(1));
+                         query = requestBuilder.completeQuery(request.get(0),request.get(1), login);
                         break;
                     default:
                         continue;
@@ -73,7 +89,15 @@ public class CommandLineLauncher {
                 continue;
             }
             Thread.sleep(1000);
-            System.out.println("Хоспаде, Максон, запомни localhost 7878");
         }
+    }
+
+    public static void tryToLogin(Client client, Scanner scanner){
+        System.out.println("Начнем процесс входа в сеть");
+        System.out.println("Введите логин:");
+        String alogin = scanner.nextLine();
+        System.out.println("Введите пароль:");
+        String apass = scanner.nextLine();
+        client.createLogin(alogin + "^" + apass);
     }
 }

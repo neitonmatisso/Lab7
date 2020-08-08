@@ -63,7 +63,7 @@ public class CollectionUpdater {
 
     }
 
-    public Thread getCollectionUpdater() {
+    public Thread getCollectionUpdaterThread() {
         return CollectionUpdater;
     }
 

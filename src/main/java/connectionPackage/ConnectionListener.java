@@ -1,5 +1,6 @@
 package connectionPackage;
 
+import businessLogic.dataBase.LoginManager;
 import connectionPackage.connectionData.TransferObject;
 
 public interface ConnectionListener {

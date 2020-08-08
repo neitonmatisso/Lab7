@@ -9,8 +9,10 @@ import java.util.*;
  */
 public class StudyGroupFactory {
     private Scanner scanner;
-    public StudyGroupFactory(){
+    private String owner;
+    public StudyGroupFactory(String owner){
         scanner = new Scanner(System.in);
+        this.owner = owner;
     }
     public void updateScanner(){
         scanner = new Scanner(System.in);
@@ -20,6 +22,7 @@ public class StudyGroupFactory {
         List<String> para = Arrays.asList(params.split("-"));
         para.removeIf(x -> x.equals(" "));
         StudyGroup studyGroup = new StudyGroup();
+        studyGroup.setOwner(owner);
         studyGroup.setName(para.get(0));
         studyGroup.setShouldBeExpelled(Integer.parseInt(para.get(1)));
         studyGroup.setCoordinates(new Coordinates(Double.parseDouble(para.get(2)), Integer.parseInt(para.get(3))));
@@ -43,6 +46,7 @@ public class StudyGroupFactory {
     }
     public StudyGroup createStudyGroup(){
         StudyGroup st = new StudyGroup();
+        st.setOwner(owner);
         st.setName(createName());
         st.setShouldBeExpelled(shouldBeExpelled());
         st.setCoordinates(createCoordinates());

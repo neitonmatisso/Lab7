@@ -1,19 +1,23 @@
 package businessLogic.commands;
 
 import businessLogic.collectionWorker.HashMapWrapper;
+import businessLogic.dataBase.dataBaseCollection;
 import businessLogic.mainApp.Result;
 /*
     команда для очистики коллекции
  */
 public class ClearCommand implements Command {
     private HashMapWrapper mainColl;
-    public ClearCommand(ControlUnit cu, HashMapWrapper hashMapWrapper){
+    private dataBaseCollection dataBaseCollection;
+    public ClearCommand(ControlUnit cu, HashMapWrapper hashMapWrapper, dataBaseCollection dataBaseCollection){
         cu.addCommand("clear", this,CommandType.CLEAR);
         mainColl = hashMapWrapper;
+        this.dataBaseCollection = dataBaseCollection;
     }
     @Override
     public void execute(String options, Result result) {
         mainColl.clear();
+        dataBaseCollection.clear();
         result.writeResult("Коллекция очищена!");
 
     }

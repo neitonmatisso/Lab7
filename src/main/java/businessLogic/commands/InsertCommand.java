@@ -27,7 +27,7 @@ public class InsertCommand implements Command {
         StudyGroup studyGroup = new Gson().fromJson(options, StudyGroup.class);
         hashMapWrapper.addElement(studyGroup);
         result.writeResult("Объект успешно добавлен  в коллекцию!");
-        result.writeResult(dataBaseCollection.insert(studyGroup));
+        result.writeResult(dataBaseCollection.insertStGroupAndPerson(studyGroup));
     }
 
     @Override

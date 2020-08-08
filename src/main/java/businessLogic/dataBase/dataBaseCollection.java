@@ -1,5 +1,7 @@
 package businessLogic.dataBase;
 
+import businessLogic.mainApp.Result;
+import businessLogic.sourseDate.Person;
 import businessLogic.sourseDate.StudyGroup;
 
 import java.sql.ResultSet;
@@ -8,12 +10,15 @@ import java.sql.SQLException;
 public class dataBaseCollection {
 
     private dataBaseManager dataBaseManager;
-    private paramsMaker paramsMaker;
-    String login;
+    String login = "unknown";
+    Result result = new Result();
+    paramsMaker paramsMaker;
 
-    public dataBaseCollection(dataBaseManager dataBaseManager, String login, paramsMaker paramsMaker){
-        this.paramsMaker = paramsMaker;
+    public dataBaseCollection(dataBaseManager dataBaseManager){
         this.dataBaseManager = dataBaseManager;
+    }
+
+    public void setOwner(String login) {
         this.login = login;
     }
 
@@ -60,13 +65,50 @@ public class dataBaseCollection {
             }
         } catch (SQLException e) {
             System.out.println("Ошибка загрузки данных remLowerKey dataBaseCollection");
+            return ("Ошибка загрузки данных remLowerKey dataBaseCollection");
         }
         return "Удаление прошло успешно";
     }
 
-    public String insert (StudyGroup studyGroup){
-        String params = paramsMaker.makeParams(studyGroup.getEverything(), studyGroup.tableEnum);
+    public String insertStudyGroup (StudyGroup studyGroup){
+
+        String params = paramsMaker.makeParams(studyGroup.getEverything(), studyGroup.tableEnum, login);
         dataBaseManager.executeUpdate("insert into stgroup " + params + ";");
         return "Запись в бащу данных прошла успешно";
+    }
+
+    public String insertPerson (Person person){
+        String params = paramsMaker.makeParams(person.getEverything(), person.tableEnum, login);
+        dataBaseManager.executeUpdate("insert into person " + params + ";");
+        return "Запись в базу данных прошла успешно";
+    }
+
+    public String insertStGroupAndPerson(StudyGroup studyGroup){
+        ResultSet note = dataBaseManager.executeQuery("select passportid from person where passportid = " + studyGroup.getGroupAdmin().getEverything().get(1) + ";");
+        try {
+            if (note.next()){
+                return "Админ с таким же паспортом уже существует, запись не будет добавлена";
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка проверки уникальности паспорта inPerson dataBaseCollection");
+            return "Ошибка проверки уникальности паспорта inPerson dataBaseCollection";
+        }
+        String params = paramsMaker.makeParams(studyGroup.getGroupAdmin().getEverything(), studyGroup.getGroupAdmin().tableEnum, login);
+        dataBaseManager.executeUpdate("insert into person " + params + ";");
+        params = paramsMaker.makeParams(studyGroup.getEverything(), studyGroup.tableEnum, login);
+        dataBaseManager.executeUpdate("insert into stgroup " + params + ";");
+        return "Запись в базу данных прошла успешно";
+    }
+
+    public String clear(){
+        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where owner = " + login + ";");
+        try {
+            while (notes.next()){
+                deleteNote(notes);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка загрузки данных remLowerKey dataBaseCollection");
+        }
+        return "Удаление прошло успешно";
     }
 }

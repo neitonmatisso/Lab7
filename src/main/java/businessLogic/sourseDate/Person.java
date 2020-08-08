@@ -1,5 +1,6 @@
 package businessLogic.sourseDate;
 
+import businessLogic.dataBase.tablesEnum;
 import businessLogic.factories.Typer;
 import javafx.util.Pair;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 public class Person  {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private String passportID; //Значение этого поля должно быть уникальным, Строка не может быть пустой, Поле не может быть null
+
+    public tablesEnum tableEnum = businessLogic.dataBase.tablesEnum.PERSON;
 
     public Person(String name, String passportID) {
         this.name = name;

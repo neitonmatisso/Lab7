@@ -2,12 +2,13 @@ package businessLogic.mainApp;
 
 import businessLogic.collectionWorker.HashMapWrapper;
 import businessLogic.commands.*;
+import businessLogic.dataBase.LoginManager;
 import businessLogic.dataBase.dataBaseCollection;
 import businessLogic.fileWorker.FileManager;
 
 public class CommandLoader {
-    public CommandLoader(ControlUnit cu, HashMapWrapper hashMapWrapper, FileManager fl, dataBaseCollection dataBaseCollection){
-       Command clear = new ClearCommand(cu, hashMapWrapper);
+    public CommandLoader(ControlUnit cu, HashMapWrapper hashMapWrapper, FileManager fl, dataBaseCollection dataBaseCollection, LoginManager loginManager){
+       Command clear = new ClearCommand(cu, hashMapWrapper, dataBaseCollection);
        Command execute = new ExecuteScriptCommand(cu);
        Command exit = new ExitCommand(cu);
        Command help = new HelpCommand(cu);
@@ -24,5 +25,6 @@ public class CommandLoader {
        Command show = new ShowCommand(cu, hashMapWrapper);
        Command sum = new SumCommand(cu,hashMapWrapper);
        Command update = new UpdateCommand(cu, hashMapWrapper);
+       Command login = new LoginCommand(loginManager);
     }
 }

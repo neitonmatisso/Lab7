@@ -1,6 +1,7 @@
 package businessLogic.dataBase;
 
 import businessLogic.dataBase.dataBaseManager;
+import businessLogic.mainApp.Result;
 import connectionPackage.Connection;
 
 import java.math.BigInteger;
@@ -9,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class LoginManager{
 
@@ -37,7 +39,7 @@ public class LoginManager{
             String pass = resultSet.getString("password");
             return encApass.equals(pass);
         } catch (SQLException e) {
-            System.out.println("Произашла ошибка при проверке пароля");
+            System.out.println("Произашла ошибка при проверке пароля или такого логина не существует");
             return false;
         }
     }
