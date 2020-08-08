@@ -14,7 +14,7 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute(String options, Result result) {
-
+        // СУКАААААААААААААААААААААААААААААААААААААААААААААААААААА
     }
 
 
