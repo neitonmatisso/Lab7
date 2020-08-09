@@ -20,6 +20,15 @@ public class ResponceSender {
         return answerQueue;
     }
 
+    public void sendLogin(Connection connection){
+        try {
+            Responce  responce = new Responce(ResponseType.LOGIN,answerQueue.poll());
+            connection.sendTransferObject(new TransferObject(new Gson().toJson(responce)));
+        } catch (IOException exception) {
+            System.out.println("Error with Response sender");
+        }
+    }
+
     public void sendAnswer(Connection connection){
         try {
             Responce  responce = new Responce(ResponseType.ANSWER,answerQueue.poll());

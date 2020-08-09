@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class LoginManager{
 
     private dataBaseManager dbM;
-    private String login;
+    private String login = null;
 
     public LoginManager(dataBaseManager dbM){
         this.dbM = dbM;

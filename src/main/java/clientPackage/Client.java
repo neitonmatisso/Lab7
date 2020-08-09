@@ -20,6 +20,11 @@ public class Client implements ConnectionListener {
     private HashMap commandMap;
     private Queue<String> answersQueue;
     private ServerStatus serverStatus;
+    private String login = "";
+
+    public String getLogin() {
+        return login;
+    }
 
     public Client(){
         commandMap = new HashMap<>();
@@ -70,13 +75,21 @@ public class Client implements ConnectionListener {
 
 
     @Override
-    public void getTransferObject(Connection connection, TransferObject transferObject, LoginManager loginManager) {
+    public void getTransferObject(Connection connection, TransferObject transferObject) {
         Responce response = new Gson().fromJson(transferObject.getJsonTransfer(),Responce.class);
         switch (response.getResponseType()){
             case ANSWER:
                 answersQueue.add(response.getResponseOption());
                 System.out.println(response.getResponseOption());
                 break;
+            case LOGIN:
+                login = response.getResponseOption().split(" ")[0];
+                if (!login.equals("")){
+                    System.out.println("Вы вошли");
+                }else{
+                    System.out.println("Неверный логин или пароль");
+                }
+
             case SETTINGS:
                 Responce jsonMap = new Gson().fromJson(transferObject.getJsonTransfer(), Responce.class);
                 commandMap = new Gson().fromJson(jsonMap.getResponseOption(),HashMap.class);

@@ -53,7 +53,7 @@ public class Server implements ConnectionListener {
         dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
 
         requestReciever = new RequestReciever(queryQueue);
-        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit,hashMapWrapper,fileManager, dataBaseCollection);
+        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit);
         responceSender = new ResponceSender(answerQueue);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -103,7 +103,9 @@ public class Server implements ConnectionListener {
                 responceSender.sendAnswer(connection);
                 break;
             case LOGIN:
-
+                requestReciever.recievRequest(request);
+                requestHeadler.completeRequest();
+                responceSender.sendLogin(connection);
                 break;
             case REGISTRATION:
                 //для регистрации в 7 лабе

@@ -21,6 +21,18 @@ public class CommandLineLauncher {
         connect(client,scanner);
 
         RequestBuilder requestBuilder = new RequestBuilder(client.getSettings());
+
+        boolean loginned = false;
+        while (!loginned){
+            tryToLogin(client, scanner);
+            Thread.sleep(50);
+            if (!client.getLogin().equals("")){
+                System.out.println("Ура, вы вошли!");
+                loginned = true;
+            }
+        }
+
+
         while (true){
             scanner = new Scanner(System.in);
 
@@ -28,8 +40,6 @@ public class CommandLineLauncher {
                 connect(client,scanner);
             }
 
-            tryToLogin(client, scanner);
-            //client.
 
             System.out.println("Create your request");
             System.out.print(">");
