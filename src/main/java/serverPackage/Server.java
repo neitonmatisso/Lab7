@@ -53,14 +53,9 @@ public class Server implements ConnectionListener {
         dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
 
         requestReciever = new RequestReciever(queryQueue);
-        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit);
+        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit, dataBaseCollection);
         responceSender = new ResponceSender(answerQueue);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                controlUnit.executeCommand("clear",new Result());
-            }
-        });
 
         try(ServerSocket serverSocket = new ServerSocket(2121)) {
             CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
@@ -71,6 +66,7 @@ public class Server implements ConnectionListener {
                 Connection connection = new Connection(serverSocket.accept(),this);
                 connectionsList.add(connection);
                 System.out.println("New connection");
+
             }
 
         } catch (IOException ex){
@@ -99,12 +95,12 @@ public class Server implements ConnectionListener {
         switch (request.getRequestType()){
             case QUERY:
                 requestReciever.recievRequest(request);
-                requestHeadler.completeRequest();
+                requestHeadler.completeRequest(request.getLogin());
                 responceSender.sendAnswer(connection);
                 break;
             case LOGIN:
                 requestReciever.recievRequest(request);
-                requestHeadler.completeRequest();
+                requestHeadler.completeRequest(request.getLogin());
                 responceSender.sendLogin(connection);
                 break;
             case REGISTRATION:

@@ -3,12 +3,12 @@ package businessLogic.commands;
 import businessLogic.dataBase.LoginManager;
 import businessLogic.mainApp.Result;
 
-public class LoginCommand implements Command {
+public class RegisterCommand implements Command {
 
     LoginManager loginManager;
 
-    public LoginCommand(LoginManager loginManager, ControlUnit cu){
-        cu.addCommand("login", this,CommandType.ARGS);
+    public RegisterCommand(LoginManager loginManager, ControlUnit cu){
+        cu.addCommand("register", this,CommandType.ARGS);
         this.loginManager = loginManager;
     }
 
@@ -17,12 +17,7 @@ public class LoginCommand implements Command {
         try {
             String login = options.split("\\^")[0];
             String pass = options.split("\\^")[1];
-            boolean check = loginManager.loginCheck(login, pass);
-            if (check){
-                result.writeResult(login);
-            }else{
-                result.writeResult("");
-            }
+            result.writeResult(loginManager.register(login, pass));
         }catch (Exception e){
             result.writeResult("Послупили неверные аргументы");
         }
@@ -30,7 +25,6 @@ public class LoginCommand implements Command {
 
     @Override
     public String toString() {
-        return "login login^pass - войти в сеть";
-
+        return "register login^pass - регистрация";
     }
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 /*
 
  */
-public class App {
+/*public class App {
 
     public static void main(String[] args) throws NoFileException {
         ControlUnit cu = new ControlUnit();
@@ -19,7 +19,7 @@ public class App {
         HashMapWrapper hashMapWrapper = new HashMapWrapper();
         FileManager fl = new FileManager(hashMapWrapper, "SaveFile");
         //FileManager fl = new FileManager(hashMapWrapper, System.getenv("FilePath")); //TODO УБРАТЬ
-        CommandLoader commandLoader = new CommandLoader(cu,hashMapWrapper,fl);
+        //CommandLoader commandLoader = new CommandLoader(cu,hashMapWrapper,fl);
         Result result = new Result();
         System.out.println("Добро пожаловать!  Введите команду");
         cu.executeCommand("load", result);
@@ -38,3 +38,5 @@ public class App {
 
     }
 }
+
+ */

@@ -65,12 +65,12 @@ public class LoginManager{
         return "";
     }
 
-    public boolean register(String login, String pass) {
+    public String register(String login, String pass) {
         try {
             ResultSet resultSet = dbM.executeQuery("SELECT login from users");
             while (resultSet.next()){
                 if (login.equals(resultSet.getString("login"))){
-                    return false;
+                    return "Такой логин уже существует";
                 }
             }
         } catch (SQLException e) {
@@ -81,8 +81,12 @@ public class LoginManager{
         String query = "INSERT INTO users (id, login, password) VALUES (nextval('id_stgroup_serial'), '" +
                 login +"', '" + encrypt(pass) + "');";
         dbM.executeUpdate(query);
-        System.out.println("Регистрация пользователя " + login + " прошла успешно");
-        return true;
+        return "Регистрация пользователя " + login + " прошла успешно";
+
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getLogin() {

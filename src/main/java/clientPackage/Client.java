@@ -45,7 +45,7 @@ public class Client implements ConnectionListener {
     }
 
     public void createQuery(String commandName, String args){
-        Request request = new Request(RequestType.QUERY,commandName,args);
+        Request request = new Request(RequestType.QUERY,commandName,args, login);
         try {
             connection.sendTransferObject(new TransferObject(new Gson().toJson(request)));
         } catch (IOException ex ){

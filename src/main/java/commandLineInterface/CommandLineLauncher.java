@@ -24,11 +24,19 @@ public class CommandLineLauncher {
 
         boolean loginned = false;
         while (!loginned){
-            tryToLogin(client, scanner);
-            Thread.sleep(50);
-            if (!client.getLogin().equals("")){
-                System.out.println("Ура, вы вошли!");
-                loginned = true;
+            System.out.println("Login или Register?");
+            String ans = scanner.nextLine();
+            if (ans.equals("Login") || ans.equals("login")){
+                tryToLogin(client, scanner);
+                Thread.sleep(100);
+                if (!client.getLogin().equals("")){
+                    System.out.println("Ура, вы вошли!");
+                    loginned = true;
+                }else{
+                    System.out.println("Вы не смогли войти");
+                }
+            }else{
+                tryToRegister(client, scanner);
             }
         }
 
@@ -54,16 +62,7 @@ public class CommandLineLauncher {
                 System.exit(0);
             }
             String[] data = commandData.split(" ");
-            String[] okData = new String[data.length-2];
-            for (int i = 0; i < data.length; i++){
-                if ((i == (data.length-1)) || (i == (data.length-2))){
-                    login = data[data.length-2];
-                    pass = data[data.length-1];
-                }
-                else{
-                    okData[i] = data[i];
-                }
-            }
+            String[] okData = new String[data.length];
             List<String> request = Arrays.asList(okData);
             Pair<String,String> query = null;
 
@@ -109,5 +108,14 @@ public class CommandLineLauncher {
         System.out.println("Введите пароль:");
         String apass = scanner.nextLine();
         client.createLogin(alogin + "^" + apass);
+    }
+
+    public static void tryToRegister(Client client, Scanner scanner){
+        System.out.println("Начнем процесс регистрации");
+        System.out.println("Введите логин:");
+        String alogin = scanner.nextLine();
+        System.out.println("Введите пароль:");
+        String apass = scanner.nextLine();
+        client.createQuery("register",alogin + "^" + apass);
     }
 }

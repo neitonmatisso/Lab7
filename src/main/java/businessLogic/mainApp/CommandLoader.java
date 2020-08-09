@@ -21,10 +21,10 @@ public class CommandLoader {
        Command remove = new RemoveCommand(cu, hashMapWrapper, dataBaseCollection);
        Command removeLower = new RemoveLowerKeyCommand(cu, hashMapWrapper, dataBaseCollection);
        Command save = new SaveCommand(cu,fl);
-       Command scriptAdd = new ScriptAddCommand(cu, hashMapWrapper);
+       //Command scriptAdd = new ScriptAddCommand(cu, hashMapWrapper);
        Command show = new ShowCommand(cu, hashMapWrapper);
        Command sum = new SumCommand(cu,hashMapWrapper);
-       Command update = new UpdateCommand(cu, hashMapWrapper);
-       Command login = new LoginCommand(loginManager);
+       Command update = new UpdateCommand(cu, hashMapWrapper, loginManager);
+       Command login = new LoginCommand(loginManager, cu);
     }
 }

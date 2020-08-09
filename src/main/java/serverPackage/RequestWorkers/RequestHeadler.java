@@ -4,6 +4,7 @@ import businessLogic.collectionWorker.HashMapWrapper;
 import businessLogic.commands.*;
 import businessLogic.dataBase.LoginManager;
 import businessLogic.dataBase.dataBaseCollection;
+import businessLogic.dataBase.dataBaseManager;
 import businessLogic.dataBase.paramsMaker;
 import businessLogic.exceptions.NoFileException;
 import businessLogic.fileWorker.FileManager;
@@ -17,20 +18,20 @@ public class RequestHeadler {
     private ControlUnit controlUnit;
     //private HashMapWrapper hashMapWrapper;
    // private FileManager fileManager;
-   // private dataBaseCollection dataBaseCollection;
-
-    public RequestHeadler(Queue<String> queryQueue, Queue<String> answerQueue, ControlUnit controlUnit) {
-       // HashMapWrapper hashMapWrapper, FileManager fileManager, dataBaseCollection dataBaseCollection
+   private dataBaseCollection dataBaseCollection;
+    public RequestHeadler(Queue<String> queryQueue, Queue<String> answerQueue, ControlUnit controlUnit, dataBaseCollection dataBaseCollection) {
+       // HashMapWrapper hashMapWrapper, FileManager fileManager
         this.queryQueue = queryQueue;
         this.answerQueue = answerQueue;
         this.controlUnit = controlUnit;
        // this.hashMapWrapper = hashMapWrapper;
        // this.fileManager = fileManager;
-       // this.dataBaseCollection = dataBaseCollection;
+       this.dataBaseCollection = dataBaseCollection;
 
     }
 
-    public void completeRequest(){
+    public void completeRequest(String login){
+        dataBaseCollection.setOwner(login);
         String command = queryQueue.poll();
         Result result = new Result();
         assert command != null;

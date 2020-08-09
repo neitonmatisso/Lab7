@@ -6,7 +6,8 @@ import businessLogic.mainApp.Result;
 /*
     черная магия скрипта
  */
-public class ScriptAddCommand implements Command {
+/*public class ScriptAddCommand implements Command {
+
     private HashMapWrapper hashMapWrapper;
     public ScriptAddCommand(ControlUnit cu, HashMapWrapper hmw){
         cu.addCommand("script_add", this, CommandType.CLEAR);
@@ -23,3 +24,5 @@ public class ScriptAddCommand implements Command {
         return "script_add : команда раработчика";
     }
 }
+*/
+
