@@ -4,6 +4,7 @@ import businessLogic.sourseDate.Person;
 import businessLogic.sourseDate.StudyGroup;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /*
@@ -16,7 +17,7 @@ public class HashMapWrapper implements CollectionWrapper {
 
 
     public HashMapWrapper(){
-        groupMap = new HashMap<>();
+        groupMap = new ConcurrentHashMap<>();
         createDate = new Date();
     }
 

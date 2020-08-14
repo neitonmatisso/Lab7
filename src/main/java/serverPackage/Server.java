@@ -92,21 +92,27 @@ public class Server implements ConnectionListener {
     @Override
     public void getTransferObject(Connection connection, TransferObject transferObject) {
         Request request = new Gson().fromJson(transferObject.getJsonTransfer(),Request.class);
+        Runnable task = () -> {
+            System.out.println("Проблема в getTransferObject Server");
+        };
         switch (request.getRequestType()){
             case QUERY:
-                requestReciever.recievRequest(request);
-                requestHeadler.completeRequest(request.getLogin());
-                responceSender.sendAnswer(connection);
+                task = () -> {
+                    requestReciever.recievRequest(request);
+                    requestHeadler.completeRequest(request.getLogin());
+                    responceSender.sendAnswer(connection);
+                };
                 break;
             case LOGIN:
-                requestReciever.recievRequest(request);
-                requestHeadler.completeRequest(request.getLogin());
-                responceSender.sendLogin(connection);
-                break;
-            case REGISTRATION:
-                //для регистрации в 7 лабе
+                task = () -> {
+                    requestReciever.recievRequest(request);
+                    requestHeadler.completeRequest(request.getLogin());
+                    responceSender.sendLogin(connection);
+                };
                 break;
         }
+        Thread requestThread = new Thread(task);
+        requestThread.start();
     }
 
     @Override

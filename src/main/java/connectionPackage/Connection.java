@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Connection {
     private Socket connectionSocket;
@@ -14,6 +17,7 @@ public class Connection {
     private ObjectOutputStream objectOutputStream;
     private ConnectionListener connectionListener;
     private Thread mainThread;
+    private ExecutorService service =  Executors.newFixedThreadPool(10);
 
     public Connection(Socket serverSocket, ConnectionListener server) {
         connectionSocket = serverSocket;
@@ -26,8 +30,7 @@ public class Connection {
             System.out.println("Socket connect exception");
         }
 
-
-       mainThread =  new Thread(() -> {
+        Runnable task = () -> {
             connectionListener.connectionReady(Connection.this);
 
             while (true) {
@@ -42,8 +45,8 @@ public class Connection {
                     break;
                 }
             }
-        });
-        mainThread.start();
+        };
+       service.execute(task);
     }
 
     public Connection(ConnectionListener client, String IP, int port) throws IOException {
