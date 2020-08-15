@@ -41,7 +41,7 @@ public class Connection {
                 } catch (Exception e) {
                     System.out.println("Возникла проблема с подключением");
                     connectionListener.disconnect(Connection.this);
-                    isDisconnect();
+                    isDisconnect(Thread.currentThread());
                     break;
                 }
             }
@@ -53,12 +53,12 @@ public class Connection {
         this(new Socket(IP, port), client);
     }
 
-    public void isDisconnect(){
+    public void isDisconnect(Thread thread){
         try {
             objectInputStream.close();
             objectOutputStream.close();
             connectionSocket.close();
-            mainThread.interrupt();
+            thread.interrupt();
         } catch (IOException exception){
             System.out.println("Error on error bruh");
         }

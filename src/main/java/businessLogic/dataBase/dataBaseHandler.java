@@ -58,7 +58,7 @@ public class dataBaseHandler {
             final int rport=5432;
             final String sshHost="se.ifmo.ru";
             final String user="s284201";
-            final String password="tkl821";
+            final String password=""; //put it in Ur mouth
 
             //Set StrictHostKeyChecking property to no to avoid UnknownHostKey issue
             java.util.Properties config = new java.util.Properties();

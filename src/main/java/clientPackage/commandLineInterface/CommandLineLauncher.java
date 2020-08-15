@@ -1,4 +1,4 @@
-package commandLineInterface;
+package clientPackage.commandLineInterface;
 
 import clientPackage.Client;
 import clientPackage.RequestBuilder;
@@ -6,7 +6,6 @@ import clientPackage.ServerStatus;
 import clientPackage.excpetions.InvalidCommandException;
 import javafx.util.Pair;
 
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -28,7 +27,7 @@ public class CommandLineLauncher {
             String ans = scanner.nextLine();
             if (ans.equals("Login") || ans.equals("login")){
                 tryToLogin(client, scanner);
-                Thread.sleep(100);
+                Thread.sleep(1000);
                 if (!client.getLogin().equals("")){
                     System.out.println("Ура, вы вошли!");
                     loginned = true;
