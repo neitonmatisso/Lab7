@@ -21,10 +21,7 @@ import businessLogic.dataBase.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Server implements ConnectionListener {
     private List<Connection> connectionsList;
@@ -78,7 +75,10 @@ public class Server implements ConnectionListener {
 
     public static void main(String[] args) {
         dataBaseHandler dataBaseHandler;
-        if (args != null){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Если вы хотите проложить SSH соеденение - введите SSH");
+        String SSH7 = scanner.nextLine();
+        if (SSH7.equals("ssh") || SSH7.equals("SSH")){
             dataBaseHandler = new dataBaseHandler("ssh");
         }else{
             dataBaseHandler = new dataBaseHandler("");
