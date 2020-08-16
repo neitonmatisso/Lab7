@@ -40,19 +40,20 @@ public class RequestHeadler {
     }
 
 
-    //private void loadCommands(ControlUnit controlUnit, HashMapWrapper hashMapWrapper, FileManager fileManager, dataBaseCollection dataBaseCollection, LoginManager loginManager){
-        //Command clearCommand = new ClearCommand(controlUnit,hashMapWrapper, dataBaseCollection);
-       // Command helpCommand = new HelpCommand(controlUnit);
-       // Command historyCommand = new HistoryCommand(controlUnit);
-       // Command infoCommand = new InfoCommand(controlUnit,hashMapWrapper);
-       // Command insertCommand = new InsertCommand(controlUnit ,hashMapWrapper ,  dataBaseCollection);
-       // Command printCommand = new PrintFieldCommand(controlUnit,hashMapWrapper);
-       // Command removeCommand = new RemoveCommand(controlUnit, hashMapWrapper, dataBaseCollection);
-       //// Command showCommand = new ShowCommand(controlUnit,hashMapWrapper);
-      //  Command sumCommand = new SumCommand(controlUnit,hashMapWrapper);
-       // Command removeLowerCommand = new RemoveLowerKeyCommand(controlUnit,hashMapWrapper, dataBaseCollection);
-       // Command saveCommand = new SaveCommand(controlUnit,fileManager);
-       // Command loadCommand = new LoginCommand(loginManager);
+    public void loadCommands(ControlUnit controlUnit, HashMapWrapper hashMapWrapper, dataBaseCollection dataBaseCollection, LoginManager loginManager){
+        Command clearCommand = new ClearCommand(controlUnit,hashMapWrapper, dataBaseCollection);
+        Command helpCommand = new HelpCommand(controlUnit);
+        Command historyCommand = new HistoryCommand(controlUnit);
+        Command infoCommand = new InfoCommand(controlUnit,hashMapWrapper);
+        Command insertCommand = new InsertCommand(controlUnit ,hashMapWrapper ,  dataBaseCollection);
+        Command printCommand = new PrintFieldCommand(controlUnit,hashMapWrapper);
+        Command removeCommand = new RemoveCommand(controlUnit, hashMapWrapper, dataBaseCollection);
+        Command showCommand = new ShowCommand(controlUnit,hashMapWrapper);
+        Command sumCommand = new SumCommand(controlUnit,hashMapWrapper);
+        Command removeLowerCommand = new RemoveLowerKeyCommand(controlUnit,hashMapWrapper, dataBaseCollection);
+        //Command saveCommand = new SaveCommand(controlUnit,fileManager);
+        Command loginCommand = new LoginCommand(loginManager, controlUnit);
+        Command registerCommand = new RegisterCommand(loginManager, controlUnit);
 
-   // }
+    }
 }

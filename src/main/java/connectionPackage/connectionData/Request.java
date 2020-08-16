@@ -4,7 +4,7 @@ public class Request {
     private RequestType requestType;
     private String commandName;
     private String args;
-    private String login;
+    private String login = "";
 
     public Request(RequestType requestType, String commandName, String args, String login) {
         this.requestType = requestType;

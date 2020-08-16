@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,10 +14,10 @@ public class Connection {
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
     private ConnectionListener connectionListener;
-    private Thread mainThread;
     private ExecutorService service =  Executors.newFixedThreadPool(10);
 
     public Connection(Socket serverSocket, ConnectionListener server) {
+
         connectionSocket = serverSocket;
         connectionListener = server;
 
@@ -36,6 +34,7 @@ public class Connection {
             while (true) {
                 try {
                     TransferObject transferObject = (TransferObject) objectInputStream.readObject();
+                    //System.out.println("Запрос пришел");
                     connectionListener.getTransferObject( Connection.this, transferObject);
 
                 } catch (Exception e) {
@@ -66,8 +65,9 @@ public class Connection {
     }
 
     public void sendTransferObject(TransferObject transferObject) throws IOException {
-            objectOutputStream.writeObject(transferObject);
-            objectOutputStream.flush();
+        objectOutputStream.writeObject(transferObject);
+        objectOutputStream.flush();
+        //System.out.println("Запрос отправлен");
     }
 
 }

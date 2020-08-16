@@ -20,8 +20,10 @@ public class LoginCommand implements Command {
             boolean check = loginManager.loginCheck(login, pass);
             if (check){
                 result.writeResult(login);
+                System.out.println("Клиент с логином " + login + " прошел проверку аутентификации");
             }else{
-                result.writeResult("");
+                result.writeResult("###");
+                System.out.println("Какой-то клиент не прошел проверку аутентификации");
             }
         }catch (Exception e){
             result.writeResult("Послупили неверные аргументы");
@@ -30,7 +32,7 @@ public class LoginCommand implements Command {
 
     @Override
     public String toString() {
-        return "login login^pass - войти в сеть";
+        return "login - войти в сеть";
 
     }
 }

@@ -5,6 +5,7 @@ import businessLogic.commands.ControlUnit;
 import businessLogic.commands.LoadCommand;
 import businessLogic.exceptions.NoFileException;
 import businessLogic.fileWorker.FileManager;
+import businessLogic.mainApp.CommandLoader;
 import businessLogic.mainApp.Result;
 import com.google.gson.Gson;
 import connectionPackage.Connection;
@@ -48,12 +49,13 @@ public class Server implements ConnectionListener {
         hashMapWrapper = new HashMapWrapper();
         fileManager = new FileManager(hashMapWrapper,"ResourceFile");
 
-        dataBaseManager dataBaseManager = new dataBaseManager(dataBaseHandler); //need login
+        dataBaseManager dataBaseManager = new dataBaseManager(dataBaseHandler);
         LoginManager loginManager = new LoginManager(dataBaseManager);
         dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
 
         requestReciever = new RequestReciever(queryQueue);
         requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit, dataBaseCollection);
+        requestHeadler.loadCommands(controlUnit, hashMapWrapper, dataBaseCollection, loginManager);
         responceSender = new ResponceSender(answerQueue);
 
 

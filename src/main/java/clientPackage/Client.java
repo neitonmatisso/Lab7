@@ -20,7 +20,7 @@ public class Client implements ConnectionListener {
     private HashMap commandMap;
     private Queue<String> answersQueue;
     private ServerStatus serverStatus;
-    private String login = "";
+    private String login = "###\n";
 
     public String getLogin() {
         return login;
@@ -54,7 +54,7 @@ public class Client implements ConnectionListener {
         }
     }
     public void createLogin(String args){
-        Request request = new Request(RequestType.LOGIN,"",args);
+        Request request = new Request(RequestType.LOGIN,"login",args);
         try {
             connection.sendTransferObject(new TransferObject(new Gson().toJson(request)));
         } catch (IOException ex ){
@@ -85,16 +85,17 @@ public class Client implements ConnectionListener {
                 break;
             case LOGIN:
                 login = response.getResponseOption().split(" ")[0];
-                if (!login.equals("")){
-                    System.out.println("Вы вошли");
+                if (!(login.equals("###\n"))){
+                    System.out.println("Ура, вы вошли!");
                 }else{
-                    System.out.println("Неверный логин или пароль");
+                    System.out.println("Вы не смогли войти");
                 }
+                break;
 
             case SETTINGS:
                 Responce jsonMap = new Gson().fromJson(transferObject.getJsonTransfer(), Responce.class);
                 commandMap = new Gson().fromJson(jsonMap.getResponseOption(),HashMap.class);
-                System.out.println("Get settings");
+                System.out.println("Got settings");
                 break;
             case BAD_REQUEST:
                 System.out.println("something wrong...");
@@ -114,6 +115,7 @@ public class Client implements ConnectionListener {
     public void disconnect(Connection connection) {
         serverStatus = ServerStatus.CLOSE;
         System.out.println("Connection close");
+        this.login = "";
 
     }
 

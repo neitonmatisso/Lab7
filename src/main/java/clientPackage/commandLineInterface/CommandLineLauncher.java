@@ -13,34 +13,38 @@ import java.util.Scanner;
 public class CommandLineLauncher {
 
     public static void main(String[] args) throws InterruptedException {
-        String login = "";
-        String pass = "";
+        //String login = "";
+        //String pass = "";
         Client client = new Client();
         Scanner scanner = new Scanner(System.in);
         connect(client,scanner);
 
         RequestBuilder requestBuilder = new RequestBuilder(client.getSettings());
 
-        boolean loginned = false;
-        while (!loginned){
-            System.out.println("Login или Register?");
-            String ans = scanner.nextLine();
-            if (ans.equals("Login") || ans.equals("login")){
-                tryToLogin(client, scanner);
-                Thread.sleep(1000);
-                if (!client.getLogin().equals("")){
-                    System.out.println("Ура, вы вошли!");
-                    loginned = true;
-                }else{
-                    System.out.println("Вы не смогли войти");
-                }
-            }else{
-                tryToRegister(client, scanner);
-            }
-        }
+
 
 
         while (true){
+            boolean loginned;
+            if (!client.getLogin().equals("###\n")){
+                loginned = true;
+            }else{
+                loginned = false;
+            }
+            while (!loginned){
+                System.out.println("Login или Register?");
+                String ans = scanner.nextLine();
+                if (ans.equals("Login") || ans.equals("login")){
+                    tryToLogin(client, scanner);
+                    Thread.sleep(700);
+                    if (!(client.getLogin().equals("###\n") || client.getLogin() == null)){
+                        loginned = true;
+                    }
+                }else{
+                    tryToRegister(client, scanner);
+                }
+            }
+
             scanner = new Scanner(System.in);
 
             if(client.getServerStatus().equals(ServerStatus.CLOSE)){
@@ -57,22 +61,24 @@ public class CommandLineLauncher {
                 continue;
             }
 
+            if(commandData.contains("login")){
+                tryToLogin(client, scanner);
+            }
+
             if(commandData.equals("exit")){
                 System.exit(0);
             }
-            String[] data = commandData.split(" ");
-            String[] okData = new String[data.length];
-            List<String> request = Arrays.asList(okData);
-            Pair<String,String> query = null;
 
+            List<String> request = Arrays.asList(commandData.split(" "));
+            Pair<String,String> query = null;
 
             try {
                 switch (request.size()){
                     case 1:
-                         query = requestBuilder.completeQuery(request.get(0),null, login);
+                         query = requestBuilder.completeQuery(request.get(0),null, client.getLogin());
                         break;
                     case 2:
-                         query = requestBuilder.completeQuery(request.get(0),request.get(1), login);
+                         query = requestBuilder.completeQuery(request.get(0),request.get(1), client.getLogin());
                         break;
                     default:
                         continue;

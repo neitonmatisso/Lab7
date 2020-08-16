@@ -18,7 +18,7 @@ public class dataBaseHandler {
     private final String sshUrl = "jdbc:postgresql://localhost:"+ lport +"/studs";
 
     private final String DB_USER = "s284201";
-    private final String DB_PASS = "tkl821";
+    private final String DB_PASS = "tkl821"; //put it in Ur mouth
 
     public dataBaseHandler(String typeOfConnection){
         if (typeOfConnection.equals("ssh")){
@@ -58,7 +58,7 @@ public class dataBaseHandler {
             final int rport=5432;
             final String sshHost="se.ifmo.ru";
             final String user="s284201";
-            final String password=""; //put it in Ur mouth
+            final String password="tkl821"; //put it in Ur mouth
 
             //Set StrictHostKeyChecking property to no to avoid UnknownHostKey issue
             java.util.Properties config = new java.util.Properties();
