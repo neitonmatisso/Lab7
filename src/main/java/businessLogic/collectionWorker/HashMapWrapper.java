@@ -131,8 +131,17 @@ public class HashMapWrapper implements CollectionWrapper {
 
     @Override
     public String clear() {
-        groupMap.clear();
+        for (Long key : groupMap.keySet()){
+            StudyGroup studyGroup = groupMap.get(key);
+            if (studyGroup.getOwner().equals(owner)){
+                groupMap.remove(key);
+            }
+        }
         return "коллекция была очищена";
+    }
+
+    public void clearAll(){
+        groupMap.clear();
     }
 
     @Override

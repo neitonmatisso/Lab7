@@ -1,5 +1,6 @@
 package businessLogic.dataBase;
 
+import businessLogic.factories.Typer;
 import businessLogic.mainApp.Result;
 import businessLogic.sourseDate.Person;
 import businessLogic.sourseDate.StudyGroup;
@@ -25,16 +26,19 @@ public class dataBaseCollection {
     private void deleteNote(ResultSet resultSet){
         try {
             if (resultSet.getString("owner").equals(login)){
-                dataBaseManager.executeUpdate("delete from person where passportid = " + resultSet.getString("groupadmin_id"));
-                dataBaseManager.executeUpdate("delete from stgroup where id = " + resultSet.getString("id"));
+                System.out.println("first");
+                dataBaseManager.executeUpdate("delete from person where passportid = " + Typer.typeRefact(resultSet.getString("groupadmin_id")) + ";");
+                System.out.println("second");
+                System.out.println(Typer.typeRefact(resultSet.getString("id")));
+                dataBaseManager.executeUpdate("delete from stgroup where id = " + Typer.typeRefact(resultSet.getString("id")) + ";");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при удалении dataBaseCollection");
+            System.out.println("Ошибка при удалении deleteNote dataBaseCollection");
         }
-    }
+    } // Подавать нужно полное поле
 
     public String removeBySBE(int a){
-        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where shouldbeexpelled = " + a + ";");
+        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where shouldbeexpelled = " + Typer.typeRefact(a) + ";");
         try {
             while (notes.next()){
                 deleteNote(notes);
@@ -47,7 +51,7 @@ public class dataBaseCollection {
     }
 
     public String removeElement(int a ){
-        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where id = " + a + ";");
+        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where id = " + Typer.typeRefact(a) + ";");
         try {
            notes.next();
            deleteNote(notes);
@@ -58,7 +62,7 @@ public class dataBaseCollection {
     }
 
     public String removeLowerKey(Long a){
-        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where id < " + a + ";");
+        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where id < " + Typer.typeRefact(a) + ";");
         try {
             while (notes.next()){
                 deleteNote(notes);
@@ -84,7 +88,7 @@ public class dataBaseCollection {
     }
 
     public String insertStGroupAndPerson(StudyGroup studyGroup){
-        ResultSet note = dataBaseManager.executeQuery("select passportid from person where passportid = " + studyGroup.getGroupAdmin().getEverything().get(1) + ";");
+        ResultSet note = dataBaseManager.executeQuery("select passportid from person where passportid = " + Typer.typeRefact(studyGroup.getGroupAdmin().getEverything().get(1)) + ";");
         try {
             if (note.next()){
                 return "Админ с таким же паспортом уже существует, запись не будет добавлена";
@@ -101,13 +105,13 @@ public class dataBaseCollection {
     }
 
     public String clear(){
-        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where owner = " + login + ";");
+        ResultSet notes = dataBaseManager.executeQuery("select * from stgroup where owner = " + Typer.typeRefact(login) + ";");
         try {
             while (notes.next()){
                 deleteNote(notes);
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка загрузки данных remLowerKey dataBaseCollection");
+            System.out.println("Ошибка загрузки данных clear dataBaseCollection");
         }
         return "Удаление прошло успешно";
     }

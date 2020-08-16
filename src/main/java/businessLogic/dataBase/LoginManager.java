@@ -30,6 +30,9 @@ public class LoginManager{
     }
 
     public boolean passCheck(String login, String Apass){
+        if (login.equals("") || Apass.equals("")){
+            return false;
+        }
         String encApass = encrypt(Apass);
         ResultSet resultSet;
         String query = "select password from users where login = '" + login + "';";

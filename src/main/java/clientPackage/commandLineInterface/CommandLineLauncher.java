@@ -61,6 +61,10 @@ public class CommandLineLauncher {
                 continue;
             }
 
+            if(commandData.equals("getLogin")){
+                System.out.println(client.getLogin());
+            }
+
             if(commandData.contains("login")){
                 tryToLogin(client, scanner);
             }
@@ -112,7 +116,9 @@ public class CommandLineLauncher {
         String alogin = scanner.nextLine();
         System.out.println("Введите пароль:");
         String apass = scanner.nextLine();
-        client.createLogin(alogin + "^" + apass);
+        if (notEmptyCheck(alogin) && notEmptyCheck(apass)){
+            client.createLogin(alogin + "^" + apass);
+        }
     }
 
     public static void tryToRegister(Client client, Scanner scanner){
@@ -121,6 +127,13 @@ public class CommandLineLauncher {
         String alogin = scanner.nextLine();
         System.out.println("Введите пароль:");
         String apass = scanner.nextLine();
-        client.createQuery("register",alogin + "^" + apass);
+        if (notEmptyCheck(alogin) && notEmptyCheck(apass)){
+            client.createQuery("register",alogin + "^" + apass);
+        }
+
+    }
+
+    private static boolean notEmptyCheck(String str){
+        return !str.equals("");
     }
 }

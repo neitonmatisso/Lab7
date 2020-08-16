@@ -84,7 +84,7 @@ public class Client implements ConnectionListener {
                 System.out.println(response.getResponseOption());
                 break;
             case LOGIN:
-                login = response.getResponseOption().split(" ")[0];
+                login = response.getResponseOption().split(" ")[0].split("\\n")[0];
                 if (!(login.equals("###\n"))){
                     System.out.println("Ура, вы вошли!");
                 }else{

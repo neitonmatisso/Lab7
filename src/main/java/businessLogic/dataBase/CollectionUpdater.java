@@ -43,6 +43,7 @@ public class CollectionUpdater {
             System.out.println("Ошибка в доступе к первоначальным id CollectionUpdater");
         }
         HashMap.clear();
+        System.out.println("Очищено");
         final String[] ids = ids_raw;
 
         Runnable task = () -> {
@@ -52,9 +53,8 @@ public class CollectionUpdater {
                 System.out.println("Ошибка с первоначальными id");
             }
             for (String id : ids){
-                System.out.println(HashMap.addElementWithID(Long.parseLong(id), uploadStudyGroup(id)));
+                System.out.println(HashMap.addElementWithID(Long.parseLong(id.split("\\n")[0]), downloadStudyGroup(id.split("\\n")[0])));
             }
-            result.writeResult("Коллекция загружена");
             System.out.println("Коллекция загружена");
         };
 
@@ -67,7 +67,7 @@ public class CollectionUpdater {
         return CollectionUpdater;
     }
 
-    public StudyGroup uploadStudyGroup (String group_id){
+    public StudyGroup downloadStudyGroup (String group_id){
         StudyGroup studyGroup = new StudyGroup();
         studyGroup.setId(Long.parseLong(group_id));
         studyGroup.setName(askGroupName(group_id));
@@ -194,7 +194,7 @@ public class CollectionUpdater {
         } catch (SQLException e) {
             System.out.println("Ошибка запроса ID админа CollectionUpdater");
         }
-        return adminID;
+        return adminID.split("\\n")[0];
     }
 
     private String askPersonName(String admin_id){
@@ -218,7 +218,7 @@ public class CollectionUpdater {
         } catch (SQLException e) {
             System.out.println("Ошибка запроса обладателя записи CollectionUpdater");
         }
-        return ownerName;
+        return ownerName.split("\\n")[0];
     }
 
 

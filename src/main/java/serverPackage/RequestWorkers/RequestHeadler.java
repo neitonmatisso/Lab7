@@ -16,21 +16,22 @@ public class RequestHeadler {
     private Queue<String> queryQueue;
     private Queue<String> answerQueue;
     private ControlUnit controlUnit;
-    //private HashMapWrapper hashMapWrapper;
+    private HashMapWrapper hashMapWrapper;
    // private FileManager fileManager;
    private dataBaseCollection dataBaseCollection;
-    public RequestHeadler(Queue<String> queryQueue, Queue<String> answerQueue, ControlUnit controlUnit, dataBaseCollection dataBaseCollection) {
+    public RequestHeadler(Queue<String> queryQueue, Queue<String> answerQueue, ControlUnit controlUnit, dataBaseCollection dataBaseCollection, HashMapWrapper hashMapWrapper) {
        // HashMapWrapper hashMapWrapper, FileManager fileManager
         this.queryQueue = queryQueue;
         this.answerQueue = answerQueue;
         this.controlUnit = controlUnit;
-       // this.hashMapWrapper = hashMapWrapper;
+       this.hashMapWrapper = hashMapWrapper;
        // this.fileManager = fileManager;
        this.dataBaseCollection = dataBaseCollection;
 
     }
 
     public void completeRequest(String login){
+        hashMapWrapper.setOwner(login);
         dataBaseCollection.setOwner(login);
         String command = queryQueue.poll();
         Result result = new Result();

@@ -51,15 +51,15 @@ public class Server implements ConnectionListener {
         dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
 
         requestReciever = new RequestReciever(queryQueue);
-        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit, dataBaseCollection);
+        requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit, dataBaseCollection, hashMapWrapper);
         requestHeadler.loadCommands(controlUnit, hashMapWrapper, dataBaseCollection, loginManager);
         responceSender = new ResponceSender(answerQueue);
+        CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
+        collectionUpdater.updateCollection();
 
 
         try(ServerSocket serverSocket = new ServerSocket(2121)) {
-            CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
             System.out.println("Server start...");
-            collectionUpdater.updateCollection();
             //new LoadCommand(controlUnit,fileManager).execute("",new Result());
             while (true){
                 Connection connection = new Connection(serverSocket.accept(),this);

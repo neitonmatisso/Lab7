@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
+// Добавить пароли в двух местах
 public class dataBaseHandler {
 
     private static Connection connection = null;

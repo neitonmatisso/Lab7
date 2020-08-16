@@ -82,6 +82,7 @@ public class StudyGroup {
     }
 
     public Person getGroupAdmin() {
+
         return groupAdmin;
     }
 
@@ -121,12 +122,14 @@ public class StudyGroup {
     public String toString() {
         return "StudyGroup: " +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
+                ", name=" + name + ",\n" +
+                "coordinates=" + coordinates +
                 ", creationDate=" + creationDate +
                 ", shouldBeExpelled=" + shouldBeExpelled +
                 ", formOfEducation=" + formOfEducation +
                 ", semesterEnum=" + semesterEnum +
-                ", groupAdmin=" + groupAdmin + "\n" ;
+                ", groupAdmin:" + groupAdmin +
+                ", owner=" + owner + "\n" ;
+
     }
 }
