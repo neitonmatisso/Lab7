@@ -66,7 +66,6 @@ public class Server implements ConnectionListener {
                 Connection connection = new Connection(serverSocket.accept(),this);
                 connectionsList.add(connection);
                 System.out.println("New connection");
-
             }
 
         } catch (IOException ex){
