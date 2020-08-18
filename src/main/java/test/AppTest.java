@@ -8,11 +8,14 @@ import businessLogic.factories.Typer;
 import businessLogic.sourseDate.Person;
 import businessLogic.sourseDate.StudyGroup;
 
+import java.math.BigInteger;
+
 
 public class AppTest{
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Check");
+        System.out.println(BigInteger.class);
+        //System.out.println("Check");
         //dataBaseHandler dbH = new dataBaseHandler("ssh");
         //dataBaseManager dataBaseManager = new dataBaseManager(dbH);
         //LoginManager lm = new LoginManager(dataBaseManager);

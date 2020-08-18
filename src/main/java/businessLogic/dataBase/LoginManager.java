@@ -10,6 +10,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class LoginManager{
@@ -34,17 +36,11 @@ public class LoginManager{
             return false;
         }
         String encApass = encrypt(Apass);
-        ResultSet resultSet;
         String query = "select password from users where login = '" + login + "';";
-        resultSet = dbM.executeQuery(query);
-        try{
-            resultSet.next();
-            String pass = resultSet.getString("password");
-            return encApass.equals(pass);
-        } catch (SQLException e) {
-            System.out.println("Произашла ошибка при проверке пароля или такого логина не существует");
-            return false;
-        }
+        List<Map<String, Object>> resultSet = dbM.executeQuery(query);
+        Map<String, Object> mResultSet = resultSet.get(0);
+        String pass = (String) mResultSet.get("password");
+        return encApass.equals(pass);
     }
 
     public String encrypt(String pass){
@@ -69,17 +65,12 @@ public class LoginManager{
     }
 
     public String register(String login, String pass) {
-        try {
-            ResultSet resultSet = dbM.executeQuery("SELECT login from users");
-            while (resultSet.next()){
-                if (login.equals(resultSet.getString("login"))){
+            List<Map<String, Object>> logins = dbM.executeQuery("SELECT login from users");
+            for (Map<String, Object> mLogin : logins){
+                if (login.equals(mLogin.get("login"))){
                     return "Такой логин уже существует";
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Произашла ошибка при регистрации LoginManager");
-        }
-
 
         String query = "INSERT INTO users (id, login, password) VALUES (nextval('id_stgroup_serial'), '" +
                 login +"', '" + encrypt(pass) + "');";

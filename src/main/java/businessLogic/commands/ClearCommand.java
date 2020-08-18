@@ -16,8 +16,8 @@ public class ClearCommand implements Command {
     }
     @Override
     public void execute(String options, Result result) {
-        mainColl.clear();
         dataBaseCollection.clear();
+        dataBaseCollection.update();
         result.writeResult("Коллекция очищена!");
 
     }

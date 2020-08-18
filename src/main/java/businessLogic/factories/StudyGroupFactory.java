@@ -171,7 +171,7 @@ public class StudyGroupFactory {
             case "THIRD": return Semester.THIRD;
             case "FOURTH": return Semester.FOURTH;
             case "EIGHTH": return Semester.EIGHTH;
-            default: return null;
+            default: return createSemester();
         }
     }
 

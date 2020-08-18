@@ -20,7 +20,7 @@ public class RemoveCommand implements Command {
 
         try {
             result.writeResult(dataBaseCollection.removeElement((Integer.parseInt(options))));
-            result.writeResult(hashMapWrapper.removeElement(Long.parseLong(options)));
+            dataBaseCollection.update();
         } catch (NumberFormatException ec){
             result.writeResult("поступил неверный аргумент. Команда не будет исполнена");
         }

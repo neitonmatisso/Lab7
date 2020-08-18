@@ -11,7 +11,7 @@ public class paramsMaker {
     public static String[] stGroupValues = new String[] {"name", "coordinates", "creationDate",
             "shouldBeExpelled","formOfEducation", "semesterEnum", "groupAdmin_id"};
 
-    public static String[] personValues = new String[] {"name", "passport"};
+    public static String[] personValues = new String[] {"name", "passportID"};
 
 
     public static String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum, String owner){

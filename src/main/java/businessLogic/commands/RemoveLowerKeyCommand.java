@@ -18,7 +18,7 @@ public class RemoveLowerKeyCommand implements Command {
     public void execute(String options, Result result) {
         try {
             result.writeResult(dataBaseCollection.removeLowerKey(Long.parseLong(options)));
-            result.writeResult(hashMapWrapper.removeLowerKey(Long.parseLong(options)));
+            dataBaseCollection.update();
         } catch (NumberFormatException ex){
             result.writeResult("поступил неверный формат. Запрос не будет исполнен");
         }
@@ -26,6 +26,6 @@ public class RemoveLowerKeyCommand implements Command {
 
     @Override
     public String toString() {
-        return "remove_lover lowerKey: удалить из коллекции все элементы, ключ которых меньше, чем заданный";
+        return "remove_lover lowerKey: удалить из коллекции все элементы, id которых меньше, чем заданный";
     }
 }

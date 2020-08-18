@@ -10,10 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CollectionUpdater {
 
@@ -28,20 +25,19 @@ public class CollectionUpdater {
     }
 
     public void updateCollection(){
-        ResultSet idsDB = dbM.executeQuery("select id from stgroup;");
+        HashMap.clear();
+        List<Map<String, Object>> idsDB = dbM.executeQuery("select id from stgroup;");
         String[] ids_raw = new String[0];
-        try {
-            ArrayList<String> id_strings = new ArrayList<>();
-            while (idsDB.next()){
-                id_strings.add(idsDB.getString("id"));
-            }
-            ids_raw = new String[id_strings.size()];
-            for (int i = 0; i < id_strings.size(); i++){
-                ids_raw[i] = id_strings.get(i);
-            }
-        } catch (SQLException e) {
-            System.out.println("Ошибка в доступе к первоначальным id CollectionUpdater");
+
+        ArrayList<String> id_strings = new ArrayList<>();
+        for (Map<String, Object> i : idsDB){
+            id_strings.add(((Integer) i.get("id")).toString());
         }
+        ids_raw = new String[id_strings.size()];
+        for (int i = 0; i < id_strings.size(); i++){
+            ids_raw[i] = id_strings.get(i);
+        }
+
         HashMap.clear();
         System.out.println("Очищено");
         final String[] ids = ids_raw;
@@ -85,45 +81,34 @@ public class CollectionUpdater {
 
     private String askGroupName(String id){
         String name = "corrupted";
-        try {
-            ResultSet ids = dbM.executeQuery("select name from stgroup where id = " + id + ";");
-            ids.next();
-            name = ids.getString("name");
-        } catch (SQLException e) {
-            System.out.println("Ошибка при обновлении имени CollectionUpdater");
-        }
+        List<Map<String, Object>> ids = dbM.executeQuery("select name from stgroup where id = " + id + ";");
+        Map<String, Object> aid = ids.get(0);
+        name = (String) aid.get("name");
         return name;
     }
 
     private Coordinates askCoordinates(String id){
         Coordinates coordinates = null;
-
-        try {
-            ResultSet cordsDB = dbM.executeQuery("select coordinates from stgroup where id = " + id + ";");
-            cordsDB.next();
-            String cords = cordsDB.getString("coordinates");
+            List<Map<String, Object>> cordsDB = dbM.executeQuery("select coordinates from stgroup where id = " + id + ";");
+            Map<String, Object> mCordsBD = cordsDB.get(0);
+            String cords = mCordsBD.get("coordinates").toString();
             String crd = cords.split("\\(")[1];
             crd = crd.split("\\)")[0];
             Double x = Double.parseDouble(crd.split(",")[0]);
             Integer y = Integer.parseInt(crd.split(",")[1].split("\\.")[0]);
             coordinates= new Coordinates(x,y);
-        } catch (SQLException e) {
-            System.out.println("Ошибка пи загрузке координат dtaBaseCollection");
-        }
         return coordinates;
     }
 
     private Date askCreationDate(String id){
         Date date = null;
         try {
-            ResultSet crdateDB = dbM.executeQuery("select creationdate from stgroup where id =" + id + ";");
-            crdateDB.next();
-            String creation = crdateDB.getString("creationdate");
+            List<Map<String, Object>> crdateDB = dbM.executeQuery("select creationdate from stgroup where id =" + id + ";");
+            Map<String, Object> mCrdateDB = crdateDB.get(0);
+            String creation = mCrdateDB.get("creationdate").toString();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String str = creation.split("\\.")[0];
             date = format.parse(str);
-        } catch (SQLException e) {
-            System.out.println("Ошибка с загрузкой даты CollectionUpdater");
         } catch (ParseException e) {
             System.out.println("Ошибка с разбором даты CollectionUpdater");
         }
@@ -132,22 +117,17 @@ public class CollectionUpdater {
 
     private int askShouldBeExpelled(String id){
         Integer sbEx = -1;
-        try {
-            ResultSet sbExDB = dbM.executeQuery("select shouldbeexpelled from stgroup where id = " + id + ";");
-            sbExDB.next();
-            sbEx = Integer.parseInt(sbExDB.getString("shouldbeexpelled"));
-        } catch (SQLException e) {
-            System.out.println("Ошибка с загрузкой колличества исключенных");
-        }
+            List<Map<String, Object>> sbExDB = dbM.executeQuery("select shouldbeexpelled from stgroup where id = " + id + ";");
+            Map<String, Object> mSbExDB = sbExDB.get(0);
+            sbEx = (Integer) mSbExDB.get("shouldbeexpelled");
         return sbEx;
     }
 
     private FormOfEducation askFormOfEducation(String id){
         FormOfEducation formOfEducation = null;
-        try {
-            ResultSet formOEDB = dbM.executeQuery("select formofeducation from stgroup where id =" + id + ";");
-            formOEDB.next();
-            String form = formOEDB.getString("formofeducation");
+            List<Map<String, Object>> formOEDB = dbM.executeQuery("select formofeducation from stgroup where id =" + id + ";");
+            Map<String, Object> mFormOEDB = formOEDB.get(0);
+            String form = (String) mFormOEDB.get("formofeducation");
             if (form == null){
                 return null;
             }
@@ -157,18 +137,14 @@ public class CollectionUpdater {
                 case "EVENING_CLASSES": formOfEducation = FormOfEducation.EVENING_CLASSES; break;
                 default: formOfEducation = null;
             }
-        } catch (SQLException e) {
-            System.out.println("Ошибка с загрузкой формы обучения");
-        }
         return formOfEducation;
     }
 
     private Semester askSemester(String id){
         Semester semester = null;
-        try {
-            ResultSet semesterDB = dbM.executeQuery("select semesterenum from stgroup where id =" + id + ";");
-            semesterDB.next();
-            String sem = semesterDB.getString("semesterenum");
+            List<Map<String, Object>> semesterDB = dbM.executeQuery("select semesterenum from stgroup where id =" + id + ";");
+            Map<String, Object> mSemesterDB = semesterDB.get(0);
+            String sem = (String) mSemesterDB.get("semesterenum");
             switch (sem){
                 case "FIRST": semester =  Semester.FIRST; break;
                 case "THIRD": semester =  Semester.THIRD; break;
@@ -176,9 +152,6 @@ public class CollectionUpdater {
                 case "EIGHTH": semester =  Semester.EIGHTH; break;
                 default: semester =  null;
             }
-        } catch (SQLException e) {
-            System.out.println("Ошибка с загрузкой формы обучения");
-        }
         return semester;
     }
 
@@ -187,37 +160,31 @@ public class CollectionUpdater {
 
     private String askPersonId(String id){
         String adminID = null;
-        try {
-            ResultSet adminIdDB = dbM.executeQuery("select groupadmin_id from stgroup where id =" + id + ";");
-            adminIdDB.next();
-            adminID = adminIdDB.getString("groupadmin_id");
-        } catch (SQLException e) {
-            System.out.println("Ошибка запроса ID админа CollectionUpdater");
-        }
+            List<Map<String, Object>> adminIdDB = dbM.executeQuery("select groupadmin_id from stgroup where id =" + id + ";");
+            Map<String, Object> mAdminIdDB = adminIdDB.get(0);
+            adminID = (String) mAdminIdDB.get("groupadmin_id");
+            if(adminID == null){
+                return null;
+            }
         return adminID.split("\\n")[0];
     }
 
     private String askPersonName(String admin_id){
         String adminName = null;
-        try {
-            ResultSet adminIdDB = dbM.executeQuery("select name from person where passportid = " + Typer.typeRefact(admin_id) + ";");
-            adminIdDB.next();
-            adminName = adminIdDB.getString("name");
-        } catch (SQLException e) {
-            System.out.println("Ошибка запроса имени админа CollectionUpdater");
-        }
+            List<Map<String, Object>> adminIdDB = dbM.executeQuery("select name from person where passportid = " + Typer.typeRefact(admin_id) + ";");
+            if(adminIdDB.isEmpty()){
+                return null;
+            }
+            Map<String, Object> mAdminIdDB = adminIdDB.get(0);
+            adminName = (String) mAdminIdDB.get("name");
         return adminName;
     }
 
     private String askOwner(String id){
         String ownerName = null;
-        try {
-            ResultSet adminIdDB = dbM.executeQuery("select owner from stgroup where id =" + id + ";");
-            adminIdDB.next();
-            ownerName = adminIdDB.getString("owner");
-        } catch (SQLException e) {
-            System.out.println("Ошибка запроса обладателя записи CollectionUpdater");
-        }
+            List<Map<String, Object>> adminIdDB = dbM.executeQuery("select owner from stgroup where id =" + id + ";");
+            Map<String, Object> mAdminIdDB = adminIdDB.get(0);
+            ownerName = (String) mAdminIdDB.get("owner");
         return ownerName.split("\\n")[0];
     }
 

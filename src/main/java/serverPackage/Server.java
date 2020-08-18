@@ -48,14 +48,15 @@ public class Server implements ConnectionListener {
 
         dataBaseManager dataBaseManager = new dataBaseManager(dataBaseHandler);
         LoginManager loginManager = new LoginManager(dataBaseManager);
-        dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager); //need login
+        CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
+        collectionUpdater.updateCollection();
+        dataBaseCollection dataBaseCollection = new dataBaseCollection(dataBaseManager, collectionUpdater); //need login
 
         requestReciever = new RequestReciever(queryQueue);
         requestHeadler = new RequestHeadler(queryQueue,answerQueue,controlUnit, dataBaseCollection, hashMapWrapper);
         requestHeadler.loadCommands(controlUnit, hashMapWrapper, dataBaseCollection, loginManager);
         responceSender = new ResponceSender(answerQueue);
-        CollectionUpdater collectionUpdater = new CollectionUpdater(dataBaseManager, hashMapWrapper);
-        collectionUpdater.updateCollection();
+
 
 
         try(ServerSocket serverSocket = new ServerSocket(2121)) {

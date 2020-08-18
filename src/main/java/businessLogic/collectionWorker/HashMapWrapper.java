@@ -132,10 +132,7 @@ public class HashMapWrapper implements CollectionWrapper {
     @Override
     public String clear() {
         for (Long key : groupMap.keySet()){
-            StudyGroup studyGroup = groupMap.get(key);
-            if (studyGroup.getOwner().equals(owner)){
-                groupMap.remove(key);
-            }
+            groupMap.remove(key);
         }
         return "коллекция была очищена";
     }

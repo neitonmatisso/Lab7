@@ -25,6 +25,6 @@ public class RegisterCommand implements Command {
 
     @Override
     public String toString() {
-        return "register login^pass - регистрация";
+        return "register - регистрация";
     }
 }

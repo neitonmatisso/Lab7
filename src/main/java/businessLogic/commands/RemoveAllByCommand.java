@@ -17,8 +17,8 @@ public class RemoveAllByCommand implements Command {
     @Override
     public void execute(String options, Result result) {
         try {
-            result.writeResult(hashMapWrapper.removeBySBE(Integer.parseInt(options)));
             result.writeResult(dataBaseCollection.removeBySBE(Integer.parseInt(options)));
+            dataBaseCollection.update();
         } catch (NumberFormatException ec){
             result.writeResult("поступил неверный аргумент. Команда не будет исполнена");
         }

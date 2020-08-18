@@ -51,7 +51,7 @@ public class CommandLineLauncher {
                 connect(client,scanner);
             }
 
-
+            Thread.sleep(150);
             System.out.println("Create your request");
             System.out.print(">");
 
