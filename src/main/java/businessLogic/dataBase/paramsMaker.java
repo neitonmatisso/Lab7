@@ -5,6 +5,8 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class paramsMaker {
 
@@ -14,9 +16,9 @@ public class paramsMaker {
     public static String[] personValues = new String[] {"name", "passportID"};
 
 
-    public static String makeParams(ArrayList<Pair<String, String>> array, tablesEnum tenum, String owner){
+    public static String makeParams(HashMap<String, String> array, tablesEnum tenum, String owner){
         StringBuilder params = new StringBuilder();
-        for (Pair<String, String> stringPair : array) {
+        for (Map.Entry<String, String> stringPair : array.entrySet()) {
             assert getValue(tenum) != null;
             if (Arrays.asList(getValue(tenum)).contains(stringPair.getKey())) {
                 params.append(stringPair.getValue()).append(", ");

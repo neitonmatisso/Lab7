@@ -5,6 +5,7 @@ import businessLogic.factories.Typer;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Person  {
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -30,11 +31,11 @@ public class Person  {
         return this.name;
     }
 
-    public ArrayList<Pair<String, String>> getEverything(){
-        ArrayList<Pair<String, String>> params = new ArrayList<>();
+    public HashMap<String, String> getEverything(){
+        HashMap<String, String> params = new HashMap<>();
         //params.add(new Pair<>("", Typer.typeRefact()));
-        params.add(new Pair<>("name", Typer.typeRefact(this.name)));
-        params.add(new Pair<>("passportID", Typer.typeRefact(this.passportID)));
+        params.put("name", Typer.typeRefact(this.name));
+        params.put("passportID", Typer.typeRefact(this.passportID));
 
         return params;
     }

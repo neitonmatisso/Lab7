@@ -7,6 +7,7 @@ import clientPackage.ServerStatus;
 import clientPackage.excpetions.InvalidCommandException;
 import javafx.util.Pair;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -76,7 +77,7 @@ public class CommandLineLauncher {
             }
 
             List<String> request = Arrays.asList(commandData.split(" "));
-            Pair<String,String> query;
+            AbstractMap.SimpleEntry<String, String> query;
 
             if (!(request.get(0) == "login" || request.get(0) == "register")){
                 try {

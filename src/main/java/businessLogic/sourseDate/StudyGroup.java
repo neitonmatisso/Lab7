@@ -7,6 +7,7 @@ import javafx.util.Pair;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class StudyGroup {
@@ -98,23 +99,20 @@ public class StudyGroup {
         return owner;
     }
 
-    public ArrayList<Pair<String, String>> getEverything(){
-        ArrayList<Pair<String, String>> params = new ArrayList<>();
-        //params.add(new Pair<>("", Typer.typeRefact()));
-        params.add(new Pair<>("id", Typer.typeRefact(this.id)));
-        params.add(new Pair<>("name", Typer.typeRefact(this.name)));
-        params.add(new Pair<>("coordinates", Typer.typeRefact((this.coordinates.getX() + "," + this.coordinates.getY()))));
-        params.add(new Pair<>("creationDate", Typer.typeRefact(Typer.typeRefact(this.creationDate))));
-        params.add(new Pair<>("shouldBeExpelled", Typer.typeRefact(this.shouldBeExpelled)));
-        params.add(new Pair<>("formOfEducation", Typer.typeRefact(this.formOfEducation)));
-        params.add(new Pair<>("semesterEnum", Typer.typeRefact(this.semesterEnum)));
+    public HashMap<String, String> getEverything(){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", Typer.typeRefact(this.id));
+        params.put("name", Typer.typeRefact(this.name));
+        params.put("coordinates", Typer.typeRefact((this.coordinates.getX() + "," + this.coordinates.getY())));
+        params.put("creationDate", Typer.typeRefact(Typer.typeRefact(this.creationDate)));
+        params.put("shouldBeExpelled", Typer.typeRefact(this.shouldBeExpelled));
+        params.put("formOfEducation", Typer.typeRefact(this.formOfEducation));
+        params.put("semesterEnum", Typer.typeRefact(this.semesterEnum));
         if (groupAdmin != null){
-            params.add(new Pair<>("groupAdmin_id", Typer.typeRefact(this.groupAdmin.getPassportID())));
+            params.put("groupAdmin_id", Typer.typeRefact(this.groupAdmin.getPassportID()));
         } else{
-            params.add(new Pair<>("groupAdmin_id", Typer.typeRefact(null)));
+            params.put("groupAdmin_id", Typer.typeRefact(null));
         }
-
-
         return params;
     }
 

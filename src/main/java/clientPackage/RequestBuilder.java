@@ -7,7 +7,9 @@ import clientPackage.excpetions.InvalidCommandException;
 import com.google.gson.Gson;
 import javafx.util.Pair;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Map;
 
 public class RequestBuilder {
     private String commandName = "";
@@ -17,7 +19,7 @@ public class RequestBuilder {
         this.commandMap = commandMap;
     }
 
-    public Pair<String,String> completeQuery(String name, String args, String login) throws InvalidCommandException {
+    public AbstractMap.SimpleEntry<String, String> completeQuery(String name, String args, String login) throws InvalidCommandException {
         if(!commandMap.containsKey(name)){
             System.out.println("Invalid command name");
             throw new InvalidCommandException();
@@ -31,16 +33,16 @@ public class RequestBuilder {
                     System.out.println("Данная команда  содержит аргументы");
                     throw new InvalidCommandException();
                 }
-                return new Pair<String, String>(name,args);
+                return new AbstractMap.SimpleEntry<String, String>(name,args);
             case "CLEAR":
                 if(!(args == null)  ){
                     System.out.println("Данная команда не содержит аргументов");
                     throw new InvalidCommandException();
                 }
-                return new Pair<String, String>(name,args);
+                return new AbstractMap.SimpleEntry<String, String>(name,args);
             case "OBJECT":
                 StudyGroup studyGroup = new StudyGroupFactory(login).createStudyGroup();
-                return new Pair<String, String>(name, new Gson().toJson(studyGroup));
+                return new AbstractMap.SimpleEntry<String, String>(name, new Gson().toJson(studyGroup));
             default:
                 throw new InvalidCommandException();
         }
