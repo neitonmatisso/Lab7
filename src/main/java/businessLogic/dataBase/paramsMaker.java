@@ -18,14 +18,15 @@ public class paramsMaker {
 
     public static String makeParams(HashMap<String, String> array, tablesEnum tenum, String owner){
         StringBuilder params = new StringBuilder();
-        for (Map.Entry<String, String> stringPair : array.entrySet()) {
+        for (String value : getValue(tenum)) {
             assert getValue(tenum) != null;
-            if (Arrays.asList(getValue(tenum)).contains(stringPair.getKey())) {
-                params.append(stringPair.getValue()).append(", ");
+            if (array.containsKey(value)) {
+                params.append(array.get(value)).append(", ");
             }
         }
         params = new StringBuilder("(" + idParam(tenum) + params + "'" + owner + "')");
         assert getValue(tenum) != null;
+        System.out.printf(makeValues(getValue(tenum), tenum) + " values " + params.toString());
         return makeValues(getValue(tenum), tenum) + " values " + params.toString();
     }
 

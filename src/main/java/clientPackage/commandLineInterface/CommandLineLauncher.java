@@ -25,8 +25,11 @@ public class CommandLineLauncher {
 
 
 
-
+        scanner = new Scanner(System.in);
         while (true){
+            while (client.getClientStatus() == ClientStatus.WAITING){
+                Thread.sleep(10);
+            }
             boolean loginned;
             loginned = !(client.getLogin().equals("###\n") || client.getLogin().equals("###"));
             while (!loginned){
@@ -45,13 +48,10 @@ public class CommandLineLauncher {
                 }
             }
 
-            scanner = new Scanner(System.in);
-
             if(client.getServerStatus().equals(ServerStatus.CLOSE)){
                 connect(client,scanner);
             }
 
-            Thread.sleep(150);
             while (client.getClientStatus() == ClientStatus.WAITING){
                 Thread.sleep(10);
             }
