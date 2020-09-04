@@ -7,7 +7,6 @@ import clientPackage.excpetions.InvalidCommandException;
 import com.google.gson.Gson;
 import javafx.util.Pair;
 
-
 import java.util.HashMap;
 
 public class RequestBuilder {

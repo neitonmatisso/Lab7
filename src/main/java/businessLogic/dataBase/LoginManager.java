@@ -1,19 +1,9 @@
 package businessLogic.dataBase;
-
-import businessLogic.dataBase.dataBaseManager;
-import businessLogic.mainApp.Result;
-import connectionPackage.Connection;
-
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
 public class LoginManager{
 
     private dataBaseManager dbM;

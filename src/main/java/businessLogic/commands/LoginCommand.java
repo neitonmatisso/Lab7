@@ -26,7 +26,7 @@ public class LoginCommand implements Command {
                 System.out.println("Какой-то клиент не прошел проверку аутентификации");
             }
         }catch (Exception e){
-            result.writeResult("Послупили неверные аргументы");
+            result.writeResult("###");
         }
     }
 

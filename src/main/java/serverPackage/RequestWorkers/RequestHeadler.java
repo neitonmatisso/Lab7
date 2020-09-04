@@ -1,15 +1,9 @@
 package serverPackage.RequestWorkers;
-
 import businessLogic.collectionWorker.HashMapWrapper;
 import businessLogic.commands.*;
 import businessLogic.dataBase.LoginManager;
 import businessLogic.dataBase.dataBaseCollection;
-import businessLogic.dataBase.dataBaseManager;
-import businessLogic.dataBase.paramsMaker;
-import businessLogic.exceptions.NoFileException;
-import businessLogic.fileWorker.FileManager;
 import businessLogic.mainApp.Result;
-
 import java.util.Queue;
 
 public class RequestHeadler {
@@ -30,7 +24,7 @@ public class RequestHeadler {
 
     }
 
-    public void completeRequest(String login){
+    public synchronized void completeRequest(String login){
         hashMapWrapper.setOwner(login);
         dataBaseCollection.setOwner(login);
         String command = queryQueue.poll();

@@ -18,7 +18,7 @@ import java.util.Scanner;
         IdGenerator idGenerator = new IdGenerator();
         HashMapWrapper hashMapWrapper = new HashMapWrapper();
         FileManager fl = new FileManager(hashMapWrapper, "SaveFile");
-        //FileManager fl = new FileManager(hashMapWrapper, System.getenv("FilePath")); //TODO УБРАТЬ
+        //FileManager fl = new FileManager(hashMapWrapper, System.getenv("FilePath"));
         //CommandLoader commandLoader = new CommandLoader(cu,hashMapWrapper,fl);
         Result result = new Result();
         System.out.println("Добро пожаловать!  Введите команду");

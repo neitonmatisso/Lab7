@@ -21,6 +21,7 @@ public class Client implements ConnectionListener {
     private Queue<String> answersQueue;
     private ServerStatus serverStatus;
     private String login = "###\n";
+    private ClientStatus clientStatus = ClientStatus.RUNNING;
 
     public String getLogin() {
         return login;
@@ -52,6 +53,7 @@ public class Client implements ConnectionListener {
         } catch (IOException ex ){
             System.out.println("Cannot send request!");
         }
+        clientStatus = ClientStatus.WAITING;
     }
     public void createLogin(String args){
         Request request = new Request(RequestType.LOGIN,"login",args);
@@ -60,6 +62,7 @@ public class Client implements ConnectionListener {
         } catch (IOException ex ){
             System.out.println("Cannot send request!");
         }
+        clientStatus = ClientStatus.WAITING;
     }
 
 
@@ -74,6 +77,9 @@ public class Client implements ConnectionListener {
         }
     }
 
+    public ClientStatus getClientStatus() {
+        return clientStatus;
+    }
 
     @Override
     public void getTransferObject(Connection connection, TransferObject transferObject) {
@@ -85,7 +91,7 @@ public class Client implements ConnectionListener {
                 break;
             case LOGIN:
                 login = response.getResponseOption().split(" ")[0].split("\\n")[0];
-                if (!(login.equals("###\n"))){
+                if (!(login.equals("###\n") || login.equals("###"))){
                     System.out.println("Ура, вы вошли!");
                 }else{
                     System.out.println("Вы не смогли войти");
@@ -102,6 +108,7 @@ public class Client implements ConnectionListener {
                 //breakpoint, можно для какой-нибудь ошибки обработать
                 break;
         }
+        clientStatus = ClientStatus.RUNNING;
 
     }
 

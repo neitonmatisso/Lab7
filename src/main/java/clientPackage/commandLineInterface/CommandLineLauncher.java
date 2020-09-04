@@ -1,6 +1,7 @@
 package clientPackage.commandLineInterface;
 
 import clientPackage.Client;
+import clientPackage.ClientStatus;
 import clientPackage.RequestBuilder;
 import clientPackage.ServerStatus;
 import clientPackage.excpetions.InvalidCommandException;
@@ -26,18 +27,16 @@ public class CommandLineLauncher {
 
         while (true){
             boolean loginned;
-            if (!client.getLogin().equals("###\n")){
-                loginned = true;
-            }else{
-                loginned = false;
-            }
+            loginned = !(client.getLogin().equals("###\n") || client.getLogin().equals("###"));
             while (!loginned){
                 System.out.println("Login или Register?");
                 String ans = scanner.nextLine();
                 if (ans.equals("Login") || ans.equals("login")){
                     tryToLogin(client, scanner);
-                    Thread.sleep(700);
-                    if (!(client.getLogin().equals("###\n") || client.getLogin() == null)){
+                    while (client.getClientStatus() == ClientStatus.WAITING){
+                        Thread.sleep(10);
+                    }
+                    if (!(client.getLogin().equals("###\n") || client.getLogin() == null || client.getLogin().equals("###"))){
                         loginned = true;
                     }
                 }else{
@@ -52,6 +51,9 @@ public class CommandLineLauncher {
             }
 
             Thread.sleep(150);
+            while (client.getClientStatus() == ClientStatus.WAITING){
+                Thread.sleep(10);
+            }
             System.out.println("Create your request");
             System.out.print(">");
 
@@ -74,25 +76,29 @@ public class CommandLineLauncher {
             }
 
             List<String> request = Arrays.asList(commandData.split(" "));
-            Pair<String,String> query = null;
+            Pair<String,String> query;
 
-            try {
-                switch (request.size()){
-                    case 1:
-                         query = requestBuilder.completeQuery(request.get(0),null, client.getLogin());
-                        break;
-                    case 2:
-                         query = requestBuilder.completeQuery(request.get(0),request.get(1), client.getLogin());
-                        break;
-                    default:
-                        continue;
+            if (!(request.get(0) == "login" || request.get(0) == "register")){
+                try {
+                    switch (request.size()){
+                        case 1:
+                            query = requestBuilder.completeQuery(request.get(0),null, client.getLogin());
+                            break;
+                        case 2:
+                            query = requestBuilder.completeQuery(request.get(0),request.get(1), client.getLogin());
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    client.createQuery(query.getKey(),query.getValue());
+                } catch (InvalidCommandException exception){
+                    continue;
                 }
-
-                client.createQuery(query.getKey(),query.getValue());
-
-            } catch (InvalidCommandException exception){
-                continue;
             }
+
+
+
             Thread.sleep(10);
         }
     }
