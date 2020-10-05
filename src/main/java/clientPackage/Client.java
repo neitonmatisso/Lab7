@@ -72,7 +72,7 @@ public class Client implements ConnectionListener {
             connection = new Connection(this,IP,port);
             return true;
         }catch (IOException ex){
-            System.out.println("Хоспаде, Максон, запомни localhost 2121");
+            System.out.println("Порт 2121");
             return false;
         }
     }
